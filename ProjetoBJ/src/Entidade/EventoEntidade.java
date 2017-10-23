@@ -7,19 +7,30 @@ package Entidade;
 
 import java.util.Collection;
 import java.util.Date;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Temporal;
 
 /**
  *
  * @author aluno
  */
+@Entity
 public class EventoEntidade {
     
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
     private CuradorEntidade curador;
     private SalaEntidade sala;
     private long codigoEvento;
     private String nomeEvento;
     private int qtdVisitantes;
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date inicio;
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date encerramento;
     private String descricaoEvento;
     private String textoConvites;
@@ -103,6 +114,14 @@ public class EventoEntidade {
 
     public void setTextoConvites(String textoConvites) {
         this.textoConvites = textoConvites;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
     
 }

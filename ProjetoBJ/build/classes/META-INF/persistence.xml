@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+  <!--  unidade de persistencia com o nome financas  -->
+  <persistence-unit name="museu" transaction-type="RESOURCE_LOCAL">
+    <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+    <class>Entidade.AcervoEntidade</class>
+    <class>Entidade.EventoEntidade</class>
+    <class>Entidade.ExposicaoEntidade</class>
+    <class>Entidade.ObraEntidade</class>
+    <class>Entidade.VisitanteEntidade</class>
+    <properties>
+      <property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:sqlite:C:\Users\bruno\Documents\Museu\ProjetoBJ\db/museu.db"/>
+      <property name="javax.persistence.jdbc.user" value=""/>
+      <property name="javax.persistence.jdbc.driver" value="org.sqlite.JDBC"/>
+      <property name="javax.persistence.jdbc.password" value=""/>
+      <property name="javax.persistence.schema-generation.database.action" value="create"/>
+      <property name="hibernate.dialect" value="com.applerao.hibernatesqlite.dialect.SQLiteDialect" />
+    </properties>
+  </persistence-unit>
+</persistence>

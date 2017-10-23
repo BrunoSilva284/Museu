@@ -7,15 +7,23 @@ package Entidade;
 
 import Enum.TipoObraEnum;
 import java.util.Date;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Temporal;
 
 /**
  *
  * @author aluno
  */
+@Entity
 public class ObraEntidade {
-    
-    private long codigo;
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private Integer codigo;
     private String nome;
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date dataCriacao;
     private String autor;
     private String descricao;
@@ -26,7 +34,7 @@ public class ObraEntidade {
         return codigo;
     }
 
-    public void setCodigo(long codigo) {
+    public void setCodigo(int codigo) {
         this.codigo = codigo;
     }
 

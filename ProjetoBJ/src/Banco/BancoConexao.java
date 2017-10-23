@@ -5,11 +5,9 @@
  */
 package Banco;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
  
 /**
  *
@@ -18,77 +16,17 @@ import java.sql.Statement;
 public class BancoConexao {
      /**
      * Connect to a sample database
+     * @param e
      */
    
-    public static void save(String sql) {
-        Connection conn = null;
-        try {
-            // db parameters
-            String url = "jdbc:sqlite:db/museu.db";
-            // create a connection to the database
-            conn = DriverManager.getConnection(url);
-            Statement stmt = conn.createStatement();
-            stmt.executeQuery(sql);
-            System.out.println("EXECUTANDO: " + sql);
-            
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        } finally {
-            try {
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (SQLException ex) {
-                System.out.println(ex.getMessage());
-            }
-        }
-    }
-    public static void delete(String sql) {
-        Connection conn = null;
-        try {
-            // db parameters
-            String url = "jdbc:sqlite:db/museu.db";
-            // create a connection to the database
-            conn = DriverManager.getConnection(url);
-            Statement stmt = conn.createStatement();
-            stmt.executeQuery(sql);
-            System.out.println("EXECUTANDO: " + sql);
-            
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        } finally {
-            try {
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (SQLException ex) {
-                System.out.println(ex.getMessage());
-            }
-        }
-    }
-    
-    public static ResultSet select(String sql) {
-        Connection conn = null;
-        try {
-            // db parameters
-            String url = "jdbc:sqlite:db/museu.db";
-            // create a connection to the database
-            conn = DriverManager.getConnection(url);
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(sql);
-            System.out.println("EXECUTANDO: " + sql);
-            return rs;
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            return null;
-        } finally {
-            try {
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (SQLException ex) {
-                System.out.println(ex.getMessage());
-            }
-        }
+    public static void salvar(Object e){
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("museu");
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        em.persist(e);
+        em.getTransaction().commit();
+        
+        em.close();
+        emf.close();
     }
 }

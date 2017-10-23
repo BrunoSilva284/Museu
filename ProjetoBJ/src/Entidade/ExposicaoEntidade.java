@@ -6,13 +6,19 @@
 package Entidade;
 
 import java.util.Collection;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 /**
  *
  * @author aluno
  */
+@Entity
 public class ExposicaoEntidade {
-    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long codExposicao;
     private String nomeExposicao;
     private int qtdObras;

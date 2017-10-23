@@ -7,13 +7,20 @@ package Entidade;
 
 import Enum.TipoAcervoEnum;
 import java.util.Collection;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 /**
  *
  * @author aluno
  */
+@Entity
 public class AcervoEntidade {
-    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
     private String nome;
     private long numeroObras;
     private TipoAcervoEnum tipoAcervo;
@@ -49,5 +56,13 @@ public class AcervoEntidade {
 
     public void setObras(ObraEntidade obras) {
         this.obras.add(obras);
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

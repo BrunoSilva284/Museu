@@ -24,8 +24,7 @@ public class VisitaController {
         
         String sql = "INSERT INTO VISITANTE (NOME,EMAIL,CPF,TEL)"
             + "VALUES ('" + nome + "','" + email + "','" + cpf + "','" + tel + "')";
-        
-        BancoConexao.save(sql);
+
 
     }
     

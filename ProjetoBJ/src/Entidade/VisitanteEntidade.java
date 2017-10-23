@@ -5,14 +5,19 @@
  */
 package Entidade;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
 /**
  *
  * @author aluno
  */
+@Entity
 public class VisitanteEntidade {
     
-    private String nome;
+    @Id
     private String cpf;
+    private String nome;
     private String telefone;
     private String email;
 
