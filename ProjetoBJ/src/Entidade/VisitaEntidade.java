@@ -1,13 +1,18 @@
 package Entidade;
 
 import java.util.Date;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 /**
  *
  * @author aluno
  */
+@Entity
 public class VisitaEntidade {
     
+    @Id
+    private int codigo;
     private Date dataHoraEntrada;
     private Date dataHoraSaida;
     private long idCartao;
