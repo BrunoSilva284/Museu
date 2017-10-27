@@ -1,6 +1,6 @@
 package br.com.fatec.model;
 
-import br.com.fatec.controller.GerenciarVisita;
+import br.com.fatec.controller.GerenciarVisitaController;
 import java.sql.SQLException;
 /**
  *
@@ -37,7 +37,7 @@ public class TestaObra {
 //        
 //        BancoConexao.salvar(visita);
           String cpf = "123.456.789-09";
-          GerenciarVisita ger = new GerenciarVisita();
+          GerenciarVisitaController ger = new GerenciarVisitaController();
 //          
 //          ger.registrarVisitante("BRUNO", "email",
 //                  cpf, "4002-8922", true, "docE");
@@ -46,7 +46,7 @@ public class TestaObra {
 //          
 //          Visitante visit = ger.consultarVisitante(cpf);
 //          System.out.println(visit.getNome() + " " + visit.getEmail());
-
-            ger.encerrarVisita(cpf);
+            ger.atualizarVisitante("JOSE DA SILVA", "JOSE@EMAIL.COM", cpf, "1234-1234", true, "assdasdasd");
+            //ger.encerrarVisita(cpf);
     }
 }

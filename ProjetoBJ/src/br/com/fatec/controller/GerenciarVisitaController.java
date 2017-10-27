@@ -13,12 +13,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
+import java.util.List;
 /**
  *
  * @author aluno
  */
-public class GerenciarVisita {
+public class GerenciarVisitaController {
     
     public void registrarVisitante(String nome,String email, String cpf, 
             String tel, boolean estudante, String docE) {
@@ -39,9 +39,16 @@ public class GerenciarVisita {
             visit.setTelefone(tel);
             BancoConexao.salvar(visit);
         }
-        
-      
-
+    }
+    
+    public List<String> retornarVisitante(String cpf) throws SQLException, ClassNotFoundException{
+        List<String> retorno = new ArrayList();
+        Visitante visitante = consultarVisitante(cpf);
+        retorno.add(visitante.getCpf());
+        retorno.add(visitante.getEmail());
+        retorno.add(visitante.getNome());
+        retorno.add(visitante.getTelefone());
+        return retorno;
     }
     
     public void iniciarVisita(String cpf) throws SQLException, ClassNotFoundException{
@@ -70,7 +77,27 @@ public class GerenciarVisita {
         BancoConexao.atualizar(visita);
     }
     
-    public Visitante consultarVisitante(String cpf) throws SQLException, ClassNotFoundException {
+    public void atualizarVisitante(String nome,String email, String cpf, 
+            String tel, boolean estudante, String docE) throws SQLException, ClassNotFoundException{
+        if(estudante){
+            Estudante visit = (Estudante) consultarVisitante(cpf);
+            visit.setNome(nome);
+            visit.setEmail(email);
+            visit.setTelefone(tel);
+            visit.setDocumentoEscolar(docE);
+            BancoConexao.atualizar(visit);            
+        }
+        else{
+            Visitante visit = consultarVisitante(cpf);
+            visit.setNome(nome);
+            visit.setEmail(email);
+            visit.setTelefone(tel);
+            BancoConexao.atualizar(visit);
+        }
+    }
+    
+    
+    private Visitante consultarVisitante(String cpf) throws SQLException, ClassNotFoundException {
         BancoConexao.conectar();
         PreparedStatement stm = BancoConexao.getConexao().prepareStatement("SELECT max(idVisitante) FROM VISITANTE"
                 + " WHERE cpf ='" + cpf + "'");
