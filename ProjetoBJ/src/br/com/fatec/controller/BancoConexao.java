@@ -51,6 +51,17 @@ public class BancoConexao {
         emf.close();
     }
     
+    public static void remover(Object e){
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("museu");
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        em.remove(e);
+        em.getTransaction().commit();
+        
+        em.close();
+        emf.close();
+    }
+    
     public static <T extends Object> T buscar(Class<T> classe, Object parametro_busca){
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("museu");
         EntityManager em = emf.createEntityManager();

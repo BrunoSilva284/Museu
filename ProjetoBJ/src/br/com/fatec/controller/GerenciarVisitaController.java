@@ -97,7 +97,7 @@ public class GerenciarVisitaController {
     }
     
     
-    private Visitante consultarVisitante(String cpf) throws SQLException, ClassNotFoundException {
+    public Visitante consultarVisitante(String cpf) throws SQLException, ClassNotFoundException {
         BancoConexao.conectar();
         PreparedStatement stm = BancoConexao.getConexao().prepareStatement("SELECT max(idVisitante) FROM VISITANTE"
                 + " WHERE cpf ='" + cpf + "'");
@@ -110,6 +110,16 @@ public class GerenciarVisitaController {
         return visit;
     }
     
+    public void excluirVisitante(Visitante visit) throws ClassNotFoundException, SQLException{
+        BancoConexao.conectar();
+        PreparedStatement stm = BancoConexao.getConexao().prepareStatement("SELECT max(idVisitante) FROM VISITANTE"
+                + " WHERE cpf ='" + visit.getCpf() + "'");
+        ResultSet rs = stm.executeQuery();
+        if(rs.next()){
+            Visitante v = BancoConexao.buscar(Visitante.class, rs.getInt("max(idVisitante)"));
+            BancoConexao.remover(v);
+        }        
+    }
     
     private int emitirCartao() throws SQLException, ClassNotFoundException{
         BancoConexao.conectar();

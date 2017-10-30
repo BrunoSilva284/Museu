@@ -6,6 +6,7 @@
 package br.com.fatec.view;
 
 import br.com.fatec.controller.GerenciarVisitaController;
+import br.com.fatec.model.Visitante;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.List;
@@ -347,8 +348,8 @@ public class GerenciarVisita extends javax.swing.JFrame {
         int opc = JOptionPane.showConfirmDialog(this, "Deseja realmente excluir esse registro?", "Atenção", JOptionPane.INFORMATION_MESSAGE);
         if(opc==JOptionPane.YES_OPTION){
             try {
-//                ger.r(txtNome.getText(), txtEmail.getText(), 
-//                        txtCpf.getText(), txtTel.getText(), ckEstudante.isSelected(), txtDocE.getText());
+                Visitante visit = ger.consultarVisitante(txtCpf.getText());
+                ger.excluirVisitante(visit);
                 JOptionPane.showMessageDialog(this, "Removido com sucesso!", "Atenção", JOptionPane.INFORMATION_MESSAGE);
                 limparCampos();
             } catch (Exception ex) {
