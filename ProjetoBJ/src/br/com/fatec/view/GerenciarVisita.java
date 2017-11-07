@@ -299,13 +299,19 @@ public class GerenciarVisita extends javax.swing.JFrame {
                 txtNome.setText(dados.get(2));
                 txtTel.setText(dados.get(3));
                 
+                if(dados.size()==5){
+                    txtDocE.setText(dados.get(4));
+                    ckEstudante.setSelected(true);
+                    txtDocE.setVisible(true);
+                }
+                
                 txtCpf.setEnabled(false);
                 btCadastrar.setEnabled(false);
                 btAlterar.setEnabled(true);
                 btExcluir.setEnabled(true);
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this, "Erro : " + ex.getMessage(), "Alerta", JOptionPane.ERROR_MESSAGE);
-            }
+            } 
         }
     }//GEN-LAST:event_btBuscarActionPerformed
 

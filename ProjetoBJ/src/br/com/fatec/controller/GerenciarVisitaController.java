@@ -43,11 +43,30 @@ public class GerenciarVisitaController {
     
     public List<String> retornarVisitante(String cpf) throws SQLException, ClassNotFoundException{
         List<String> retorno = new ArrayList();
-        Visitante visitante = consultarVisitante(cpf);
-        retorno.add(visitante.getCpf());
-        retorno.add(visitante.getEmail());
-        retorno.add(visitante.getNome());
-        retorno.add(visitante.getTelefone());
+        BancoConexao.conectar();
+        PreparedStatement stm = BancoConexao.getConexao().prepareStatement("SELECT max(idVisitante),DTYPE FROM VISITANTE"
+                + " WHERE cpf ='" + cpf + "'");
+        ResultSet rs = stm.executeQuery();
+
+        if (rs.next()) { //percorre todos os registros
+            if(rs.getString("DTYPE").equalsIgnoreCase("ESTUDANTE")){
+                Estudante visitante = (Estudante)consultarVisitante(cpf);
+                retorno.add(visitante.getCpf());
+                retorno.add(visitante.getEmail());
+                retorno.add(visitante.getNome());
+                retorno.add(visitante.getTelefone());
+                retorno.add(visitante.getDocumentoEscolar());
+            }
+            else{
+                Visitante visitante = (Estudante)consultarVisitante(cpf);
+                retorno.add(visitante.getCpf());
+                retorno.add(visitante.getEmail());
+                retorno.add(visitante.getNome());
+                retorno.add(visitante.getTelefone());
+            }
+        }       
+        
+        BancoConexao.desconectar();
         return retorno;
     }
     
@@ -67,7 +86,7 @@ public class GerenciarVisitaController {
                 + " WHERE visitante_idVisitante = (SELECT max(idVisitante)"
                         + " FROM VISITANTE WHERE cpf ='" + cpf + "')");
         ResultSet rs = stm.executeQuery();
-
+        BancoConexao.desconectar();
         Visitante visit = null;
         if (rs.next()) { //percorre todos os registros
             visit = BancoConexao.buscar(Visitante.class, rs.getInt("max(idVisitante)"));
@@ -99,15 +118,23 @@ public class GerenciarVisitaController {
     
     public Visitante consultarVisitante(String cpf) throws SQLException, ClassNotFoundException {
         BancoConexao.conectar();
-        PreparedStatement stm = BancoConexao.getConexao().prepareStatement("SELECT max(idVisitante) FROM VISITANTE"
+        PreparedStatement stm = BancoConexao.getConexao().prepareStatement("SELECT max(idVisitante),DTYPE FROM VISITANTE"
                 + " WHERE cpf ='" + cpf + "'");
         ResultSet rs = stm.executeQuery();
 
-        Visitante visit = null;
         if (rs.next()) { //percorre todos os registros
-            visit = BancoConexao.buscar(Visitante.class, rs.getInt("max(idVisitante)"));
-        } 
-        return visit;
+            if(rs.getString("DTYPE").equals("ESTUDANTE")){
+                Estudante visit = null;
+                visit = (Estudante) BancoConexao.buscar(Visitante.class, rs.getInt("max(idVisitante)"));
+                return visit;
+            }else{
+                Visitante visit = null;
+                visit = BancoConexao.buscar(Visitante.class, rs.getInt("max(idVisitante)"));
+                return visit;
+            }            
+        }
+        BancoConexao.desconectar();
+        return null;
     }
     
     public void excluirVisitante(Visitante visit) throws ClassNotFoundException, SQLException{
@@ -119,6 +146,7 @@ public class GerenciarVisitaController {
             Visitante v = BancoConexao.buscar(Visitante.class, rs.getInt("max(idVisitante)"));
             BancoConexao.remover(v);
         }        
+        BancoConexao.desconectar();
     }
     
     private int emitirCartao() throws SQLException, ClassNotFoundException{
