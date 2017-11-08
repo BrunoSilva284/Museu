@@ -41,7 +41,7 @@ public class GerenciarVisitaController {
         }
     }
     
-    public List<String> retornarVisitante(String cpf) throws SQLException, ClassNotFoundException{
+    public List<String> retornarVisitante(String cpf) throws SQLException, ClassNotFoundException, NullPointerException{
         List<String> retorno = new ArrayList();
         BancoConexao.conectar();
         PreparedStatement stm = BancoConexao.getConexao().prepareStatement("SELECT max(idVisitante),DTYPE FROM VISITANTE"
@@ -70,7 +70,7 @@ public class GerenciarVisitaController {
         return retorno;
     }
     
-    public void iniciarVisita(String cpf) throws SQLException, ClassNotFoundException{
+    public void iniciarVisita(String cpf) throws SQLException, ClassNotFoundException, NullPointerException{
         Visita visita = new Visita();
         visita.setDataHoraEntrada(Calendar.getInstance());
         visita.setIdCartao(this.emitirCartao());
@@ -79,7 +79,7 @@ public class GerenciarVisitaController {
 
     }
     
-    public void encerrarVisita(String cpf) throws ClassNotFoundException, SQLException{
+    public void encerrarVisita(String cpf) throws ClassNotFoundException, SQLException, NullPointerException{
         BancoConexao.conectar();
         PreparedStatement stm = BancoConexao.getConexao()
                 .prepareStatement("SELECT max(codigo),max(idVisitante) FROM VISITA, VISITANTE"
@@ -97,7 +97,7 @@ public class GerenciarVisitaController {
     }
     
     public void atualizarVisitante(String nome,String email, String cpf, 
-            String tel, boolean estudante, String docE) throws SQLException, ClassNotFoundException{
+            String tel, boolean estudante, String docE) throws SQLException, ClassNotFoundException, NullPointerException{
         if(estudante){
             Estudante visit = (Estudante) consultarVisitante(cpf);
             visit.setNome(nome);
@@ -116,7 +116,7 @@ public class GerenciarVisitaController {
     }
     
     
-    public Visitante consultarVisitante(String cpf) throws SQLException, ClassNotFoundException {
+    public Visitante consultarVisitante(String cpf) throws SQLException, ClassNotFoundException, NullPointerException {
         BancoConexao.conectar();
         PreparedStatement stm = BancoConexao.getConexao().prepareStatement("SELECT max(idVisitante),DTYPE FROM VISITANTE"
                 + " WHERE cpf ='" + cpf + "'");
@@ -137,7 +137,7 @@ public class GerenciarVisitaController {
         return null;
     }
     
-    public void excluirVisitante(Visitante visit) throws ClassNotFoundException, SQLException{
+    public void excluirVisitante(Visitante visit) throws ClassNotFoundException, SQLException, NullPointerException{
         BancoConexao.conectar();
         PreparedStatement stm = BancoConexao.getConexao().prepareStatement("SELECT max(idVisitante) FROM VISITANTE"
                 + " WHERE cpf ='" + visit.getCpf() + "'");

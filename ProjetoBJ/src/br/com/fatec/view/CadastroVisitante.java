@@ -20,14 +20,14 @@ import javax.swing.text.MaskFormatter;
  *
  * @author aluno
  */
-public class GerenciarVisita extends javax.swing.JFrame {
+public class CadastroVisitante extends javax.swing.JFrame {
 
     private GerenciarVisitaController ger = new GerenciarVisitaController();
     
     /**
      * Creates new form GerenciarVisita
      */
-    public GerenciarVisita() {
+    public CadastroVisitante() {
         initComponents();
         lbDocE.setVisible(false);
         txtDocE.setVisible(false);
@@ -163,7 +163,7 @@ public class GerenciarVisita extends javax.swing.JFrame {
             .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
     );
 
-    btNovo.setText("Novo");
+    btNovo.setText("Limpar");
     btNovo.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             btNovoActionPerformed(evt);
@@ -277,6 +277,7 @@ public class GerenciarVisita extends javax.swing.JFrame {
         txtEmail.setText("");
         txtNome.setText("");
         txtTel.setText("");
+        txtCpf.setEnabled(true);
         ckEstudante.setSelected(false);
         btCadastrar.setEnabled(true);
         btAlterar.setEnabled(false);
@@ -309,7 +310,9 @@ public class GerenciarVisita extends javax.swing.JFrame {
                 btCadastrar.setEnabled(false);
                 btAlterar.setEnabled(true);
                 btExcluir.setEnabled(true);
-            } catch (Exception ex) {
+            }catch(NullPointerException ex){
+                JOptionPane.showMessageDialog(this, "Visitante não encontrado!", "Alerta", JOptionPane.INFORMATION_MESSAGE);
+            }catch (Exception ex) {
                 JOptionPane.showMessageDialog(this, "Erro : " + ex.getMessage(), "Alerta", JOptionPane.ERROR_MESSAGE);
             } 
         }
@@ -342,9 +345,11 @@ public class GerenciarVisita extends javax.swing.JFrame {
                         txtCpf.getText(), txtTel.getText(), ckEstudante.isSelected(), txtDocE.getText());
                 JOptionPane.showMessageDialog(this, "Atualizado com sucesso!", "Atenção", JOptionPane.INFORMATION_MESSAGE);
                 limparCampos();
-            } catch (Exception ex) {
+            }catch(NullPointerException ex){
+                JOptionPane.showMessageDialog(this, "Visitante não encontrado!", "Alerta", JOptionPane.INFORMATION_MESSAGE);
+            }catch (Exception ex) {
                 JOptionPane.showMessageDialog(this, "Erro : " + ex.getMessage(), "Alerta", JOptionPane.ERROR_MESSAGE);
-            }
+            } 
         }
     }//GEN-LAST:event_btAlterarActionPerformed
 
@@ -358,9 +363,11 @@ public class GerenciarVisita extends javax.swing.JFrame {
                 ger.excluirVisitante(visit);
                 JOptionPane.showMessageDialog(this, "Removido com sucesso!", "Atenção", JOptionPane.INFORMATION_MESSAGE);
                 limparCampos();
-            } catch (Exception ex) {
+            }catch(NullPointerException ex){
+                JOptionPane.showMessageDialog(this, "Visitante não encontrado!", "Alerta", JOptionPane.INFORMATION_MESSAGE);
+            }catch (Exception ex) {
                 JOptionPane.showMessageDialog(this, "Erro : " + ex.getMessage(), "Alerta", JOptionPane.ERROR_MESSAGE);
-            }
+            } 
         }
     }//GEN-LAST:event_btExcluirActionPerformed
 
@@ -382,20 +389,21 @@ public class GerenciarVisita extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GerenciarVisita.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CadastroVisitante.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GerenciarVisita.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CadastroVisitante.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GerenciarVisita.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CadastroVisitante.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GerenciarVisita.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CadastroVisitante.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new GerenciarVisita().setVisible(true);
+                new CadastroVisitante().setVisible(true);
             }
         });
     }
