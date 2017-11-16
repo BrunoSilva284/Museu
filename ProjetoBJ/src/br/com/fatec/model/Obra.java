@@ -32,6 +32,7 @@ public class Obra {
     @Enumerated(EnumType.STRING)
     private TipoObraEnum classificacao;
     private String localProducao;
+    private String caminhoImg;
 
     public long getCodigo() {
         return codigo;
@@ -87,6 +88,14 @@ public class Obra {
 
     public void setLocalProducao(String localProducao) {
         this.localProducao = localProducao;
+    }
+
+    public String getCaminhoImg() {
+        return caminhoImg;
+    }
+
+    public void setCaminhoImg(String caminhoImg) {
+        this.caminhoImg = caminhoImg;
     }
     
 }

@@ -27,21 +27,91 @@ public class MenuPrincipal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        painelPrincipal = new javax.swing.JDesktopPane();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        menuCadastro = new javax.swing.JMenu();
+        CadastroVisitante = new javax.swing.JMenuItem();
+        CadastroAcervo = new javax.swing.JMenuItem();
+        menuGerenciar = new javax.swing.JMenu();
+        GerenciarVisita = new javax.swing.JMenuItem();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Menu Principal - Museu");
+        setMaximumSize(new java.awt.Dimension(800, 600));
+        setName("Menu Principal - Museu"); // NOI18N
+        getContentPane().setLayout(null);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+        javax.swing.GroupLayout painelPrincipalLayout = new javax.swing.GroupLayout(painelPrincipal);
+        painelPrincipal.setLayout(painelPrincipalLayout);
+        painelPrincipalLayout.setHorizontalGroup(
+            painelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 680, Short.MAX_VALUE)
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+        painelPrincipalLayout.setVerticalGroup(
+            painelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 420, Short.MAX_VALUE)
         );
 
-        pack();
+        getContentPane().add(painelPrincipal);
+        painelPrincipal.setBounds(0, 0, 680, 420);
+
+        menuCadastro.setText("Cadastrar");
+
+        CadastroVisitante.setText("Visitante");
+        CadastroVisitante.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CadastroVisitanteActionPerformed(evt);
+            }
+        });
+        menuCadastro.add(CadastroVisitante);
+
+        CadastroAcervo.setText("Acervo");
+        CadastroAcervo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CadastroAcervoActionPerformed(evt);
+            }
+        });
+        menuCadastro.add(CadastroAcervo);
+
+        jMenuBar1.add(menuCadastro);
+
+        menuGerenciar.setText("Gerenciar");
+
+        GerenciarVisita.setText("Visita");
+        GerenciarVisita.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                GerenciarVisitaActionPerformed(evt);
+            }
+        });
+        menuGerenciar.add(GerenciarVisita);
+
+        jMenuBar1.add(menuGerenciar);
+
+        setJMenuBar(jMenuBar1);
+
+        setBounds(0, 0, 703, 480);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void CadastroVisitanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CadastroVisitanteActionPerformed
+        // TODO add your handling code here:
+        CadastroVisitante visit = new CadastroVisitante();
+        painelPrincipal.add(visit);
+        visit.setVisible(true);
+    }//GEN-LAST:event_CadastroVisitanteActionPerformed
+
+    private void GerenciarVisitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GerenciarVisitaActionPerformed
+        // TODO add your handling code here:
+        GerenciarVisita visit = new GerenciarVisita();
+        painelPrincipal.add(visit);
+        visit.setVisible(true);
+    }//GEN-LAST:event_GerenciarVisitaActionPerformed
+
+    private void CadastroAcervoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CadastroAcervoActionPerformed
+        // TODO add your handling code here:
+        CadastroAcervo acervo = new CadastroAcervo();
+        painelPrincipal.add(acervo);
+        acervo.setVisible(true);
+    }//GEN-LAST:event_CadastroAcervoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -79,5 +149,12 @@ public class MenuPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem CadastroAcervo;
+    private javax.swing.JMenuItem CadastroVisitante;
+    private javax.swing.JMenuItem GerenciarVisita;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenu menuCadastro;
+    private javax.swing.JMenu menuGerenciar;
+    private javax.swing.JDesktopPane painelPrincipal;
     // End of variables declaration//GEN-END:variables
 }

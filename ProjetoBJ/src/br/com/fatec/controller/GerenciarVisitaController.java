@@ -75,8 +75,27 @@ public class GerenciarVisitaController {
         visita.setDataHoraEntrada(Calendar.getInstance());
         visita.setIdCartao(this.emitirCartao());
         visita.setVisitante(this.consultarVisitante(cpf));
+        visita.setValorEntrada(valorEntrada(cpf));
         BancoConexao.salvar(visita);
 
+    }
+    
+    public double valorEntrada(String cpf) throws ClassNotFoundException, SQLException, NullPointerException{
+        BancoConexao.conectar();
+        Visita visita = new Visita();                
+        double retorno = visita.getValorEntrada();
+        PreparedStatement stm = BancoConexao.getConexao()
+                .prepareStatement("SELECT DTYPE FROM VISITANTE"
+                + " WHERE cpf = '" + cpf + "'");
+        ResultSet rs = stm.executeQuery();
+        if (rs.next()) { //percorre todos os registros
+            String tipo = rs.getString("DTYPE");
+            if(tipo.equalsIgnoreCase("Estudante")){
+                retorno = retorno/2;
+            }
+        } 
+        BancoConexao.desconectar();
+        return retorno;
     }
     
     public void encerrarVisita(String cpf) throws ClassNotFoundException, SQLException, NullPointerException{
@@ -85,15 +104,19 @@ public class GerenciarVisitaController {
                 .prepareStatement("SELECT max(codigo),max(idVisitante) FROM VISITA, VISITANTE"
                 + " WHERE visitante_idVisitante = (SELECT max(idVisitante)"
                         + " FROM VISITANTE WHERE cpf ='" + cpf + "')");
-        ResultSet rs = stm.executeQuery();
-        BancoConexao.desconectar();
+        ResultSet rs = stm.executeQuery();        
         Visitante visit = null;
         if (rs.next()) { //percorre todos os registros
             visit = BancoConexao.buscar(Visitante.class, rs.getInt("max(idVisitante)"));
-        } 
-        Visita visita = BancoConexao.buscar(Visita.class, rs.getInt("max(codigo)"));
-        visita.setDataHoraSaida(Calendar.getInstance());
-        BancoConexao.atualizar(visita);
+            Visita visita = BancoConexao.buscar(Visita.class, rs.getInt("max(codigo)"));
+            visita.setDataHoraSaida(Calendar.getInstance());
+            BancoConexao.atualizar(visita);
+        }
+        else{
+            return;
+        }
+
+        BancoConexao.desconectar();
     }
     
     public void atualizarVisitante(String nome,String email, String cpf, 
