@@ -10,7 +10,9 @@ import br.com.fatec.model.TipoObraEnum;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 /**
  *
@@ -35,14 +37,13 @@ public class AcervoController {
     public Obra consultarObra(String nome) throws SQLException, ClassNotFoundException, NullPointerException {
         BancoConexao.conectar();
         PreparedStatement stm = BancoConexao.getConexao().prepareStatement("SELECT max(codigo) FROM OBRA"
-                + " WHERE nome ='" + nome + "'");
+                + " WHERE nome like '" + nome + "%'");
         ResultSet rs = stm.executeQuery();
 
         if (rs.next()) { //percorre todos os registros
             Obra obra = null;
             obra = BancoConexao.buscar(Obra.class, rs.getInt("max(codigo)"));
-            return obra;
-                        
+            return obra;                        
         }
         BancoConexao.desconectar();
         return null;
@@ -61,16 +62,17 @@ public class AcervoController {
         BancoConexao.atualizar(obra);
     }
     
-    public void excluirObra(Obra obra) throws SQLException, ClassNotFoundException, NullPointerException {
- 
-    BancoConexao.conectar();
-    PreparedStatement stm = BancoConexao.getConexao().prepareStatement("SELECT max(codigo) FROM OBRA"
-        + " WHERE nome ='" + obra.getNome() + "'");
-    ResultSet rs = stm.executeQuery();
-    if(rs.next()){
-        Obra o = BancoConexao.buscar(Obra.class, rs.getInt("max(codigo)"));
-        BancoConexao.remover(o);
-    }        
-    BancoConexao.desconectar();
+    public void excluirObra(String nome) throws SQLException, ClassNotFoundException, NullPointerException {
+        BancoConexao.conectar();
+        PreparedStatement stm = BancoConexao.getConexao().prepareStatement("SELECT max(codigo) FROM OBRA"
+                + " WHERE nome ='" + nome + "'");
+        ResultSet rs = stm.executeQuery();
+        if(rs.next()){
+            Obra obra = BancoConexao.buscar(Obra.class, rs.getInt("max(codigo)"));
+            System.out.println(obra.getAutor()+" "+obra.getDescricao());
+            BancoConexao.remover(obra);
+        }        
+        BancoConexao.desconectar();
     }
+    
 }

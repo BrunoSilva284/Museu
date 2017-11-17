@@ -45,15 +45,15 @@ public class MenuPrincipal extends javax.swing.JFrame {
         painelPrincipal.setLayout(painelPrincipalLayout);
         painelPrincipalLayout.setHorizontalGroup(
             painelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 680, Short.MAX_VALUE)
+            .addGap(0, 1280, Short.MAX_VALUE)
         );
         painelPrincipalLayout.setVerticalGroup(
             painelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 420, Short.MAX_VALUE)
+            .addGap(0, 610, Short.MAX_VALUE)
         );
 
         getContentPane().add(painelPrincipal);
-        painelPrincipal.setBounds(0, 0, 680, 420);
+        painelPrincipal.setBounds(0, 0, 1280, 610);
 
         menuCadastro.setText("Cadastrar");
 
@@ -89,7 +89,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
         setJMenuBar(jMenuBar1);
 
-        setBounds(0, 0, 703, 480);
+        setBounds(0, 0, 1006, 610);
     }// </editor-fold>//GEN-END:initComponents
 
     private void CadastroVisitanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CadastroVisitanteActionPerformed

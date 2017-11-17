@@ -8,13 +8,8 @@ package br.com.fatec.view;
 import br.com.fatec.controller.GerenciarVisitaController;
 import br.com.fatec.controller.Mascaras;
 import br.com.fatec.model.Visitante;
-import java.sql.SQLException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import javax.swing.text.DefaultFormatterFactory;
-import javax.swing.text.MaskFormatter;
 
 /**
  *
