@@ -5,10 +5,28 @@
  */
 package br.com.fatec.controller;
 
+import br.com.fatec.model.Exposicao;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 /**
  *
  * @author aluno
  */
 public class ExposicaoController {
     
+    public Exposicao consultarExposicao(String nome) throws SQLException, ClassNotFoundException, NullPointerException{
+        BancoConexao.conectar();
+        PreparedStatement stm = BancoConexao.getConexao().prepareStatement("SELECT max(codigo) FROM EXPOSICAO"
+                + " WHERE nome like '" + nome + "%'");
+        ResultSet rs = stm.executeQuery();
+
+        if (rs.next()) { //percorre todos os registros
+            Exposicao exposicao = BancoConexao.buscar(Exposicao.class, rs.getInt("max(codigo)"));
+            return exposicao;                        
+        }
+        BancoConexao.desconectar();
+        return null;
+    }
 }

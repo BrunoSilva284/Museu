@@ -41,6 +41,7 @@ public class CadastroAcervo extends javax.swing.JInternalFrame {
     }
     
     private void limparCampos(){
+        txtBusca.setText("");
         txtAutor.setText("");
         txtDataCriacao.setText("");
         txtDescricao.setText("");

@@ -6,6 +6,7 @@
 package br.com.fatec.controller;
 
 import br.com.fatec.model.Obra;
+import br.com.fatec.model.StatusObraEnum;
 import br.com.fatec.model.TipoObraEnum;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -30,7 +31,7 @@ public class AcervoController {
         obra.setDescricao(descricao);
         obra.setLocalProducao(localProducao);
         obra.setNome(nome);
-        
+        obra.setStatus(StatusObraEnum.NOVA);
         BancoConexao.salvar(obra);
     }
      

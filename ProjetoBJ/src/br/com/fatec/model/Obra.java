@@ -33,6 +33,7 @@ public class Obra {
     private TipoObraEnum classificacao;
     private String localProducao;
     private String caminhoImg;
+    private StatusObraEnum status;
 
     public long getCodigo() {
         return codigo;
@@ -96,6 +97,14 @@ public class Obra {
 
     public void setCaminhoImg(String caminhoImg) {
         this.caminhoImg = caminhoImg;
+    }
+
+    public StatusObraEnum getStatus() {
+        return status;
+    }
+
+    public void setStatus(StatusObraEnum status) {
+        this.status = status;
     }
     
 }
