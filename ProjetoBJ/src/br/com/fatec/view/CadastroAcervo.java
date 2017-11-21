@@ -32,6 +32,7 @@ public class CadastroAcervo extends javax.swing.JInternalFrame {
     /**
      * Creates new form CadastroAcervo
      */
+    private String nomeAntigo;
     private AcervoController ger = new AcervoController();
     private String imagemCaminho;
     public CadastroAcervo() {
@@ -378,6 +379,7 @@ public class CadastroAcervo extends javax.swing.JInternalFrame {
                 txtDescricao.setText(dados.getDescricao());
                 txtLocalProducao.setText(dados.getLocalProducao());
                 txtNome.setText(dados.getNome());
+                nomeAntigo = dados.getNome();
                 cbTipoObra.setSelectedItem(dados.getClassificacao());
                 image.setIcon(ResizeImage(dados.getCaminhoImg()));
                 imagemCaminho = dados.getCaminhoImg();
@@ -405,7 +407,7 @@ public class CadastroAcervo extends javax.swing.JInternalFrame {
             Date data = Date.valueOf(txtDataCriacao.getText());
             dataCriacao.setTime(data);
             try {
-                ger.alterarObra(txtNome.getText(), dataCriacao, txtAutor.getText(),
+                ger.alterarObra(nomeAntigo, txtNome.getText(), dataCriacao, txtAutor.getText(),
                         txtDescricao.getText(), (TipoObraEnum)cbTipoObra.getSelectedItem(),
                         txtLocalProducao.getText(),  imagemCaminho);
             } catch (SQLException ex) {
@@ -417,7 +419,7 @@ public class CadastroAcervo extends javax.swing.JInternalFrame {
             }
 
             limparCampos();
-            JOptionPane.showMessageDialog(null, "Cadastrado com sucesso!", "Atenção", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Alterado com sucesso!", "Atenção", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_btAlterarActionPerformed
 
@@ -431,8 +433,8 @@ public class CadastroAcervo extends javax.swing.JInternalFrame {
                 limparCampos();
             }catch(NullPointerException ex){
                 JOptionPane.showMessageDialog(this, "Obra não encontrada!", "Alerta", JOptionPane.INFORMATION_MESSAGE);
-            }catch (Exception ex) {
-                JOptionPane.showMessageDialog(this, "Erro : " + ex.getMessage(), "Alerta", JOptionPane.ERROR_MESSAGE);
+            } catch (SQLException | ClassNotFoundException ex) {
+                Logger.getLogger(CadastroAcervo.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_btExcluirActionPerformed

@@ -34,6 +34,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         CadastroAcervo = new javax.swing.JMenuItem();
         menuGerenciar = new javax.swing.JMenu();
         GerenciarVisita = new javax.swing.JMenuItem();
+        GerenciarExposicao = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Menu Principal - Museu");
@@ -41,19 +42,21 @@ public class MenuPrincipal extends javax.swing.JFrame {
         setName("Menu Principal - Museu"); // NOI18N
         getContentPane().setLayout(null);
 
+        painelPrincipal.setPreferredSize(new java.awt.Dimension(1920, 1080));
+
         javax.swing.GroupLayout painelPrincipalLayout = new javax.swing.GroupLayout(painelPrincipal);
         painelPrincipal.setLayout(painelPrincipalLayout);
         painelPrincipalLayout.setHorizontalGroup(
             painelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1280, Short.MAX_VALUE)
+            .addGap(0, 1920, Short.MAX_VALUE)
         );
         painelPrincipalLayout.setVerticalGroup(
             painelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 610, Short.MAX_VALUE)
+            .addGap(0, 1080, Short.MAX_VALUE)
         );
 
         getContentPane().add(painelPrincipal);
-        painelPrincipal.setBounds(0, 0, 1280, 610);
+        painelPrincipal.setBounds(0, -10, 1920, 1080);
 
         menuCadastro.setText("Cadastrar");
 
@@ -85,6 +88,14 @@ public class MenuPrincipal extends javax.swing.JFrame {
         });
         menuGerenciar.add(GerenciarVisita);
 
+        GerenciarExposicao.setText("Exposição");
+        GerenciarExposicao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                GerenciarExposicaoActionPerformed(evt);
+            }
+        });
+        menuGerenciar.add(GerenciarExposicao);
+
         jMenuBar1.add(menuGerenciar);
 
         setJMenuBar(jMenuBar1);
@@ -112,6 +123,13 @@ public class MenuPrincipal extends javax.swing.JFrame {
         painelPrincipal.add(acervo);
         acervo.setVisible(true);
     }//GEN-LAST:event_CadastroAcervoActionPerformed
+
+    private void GerenciarExposicaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GerenciarExposicaoActionPerformed
+        // TODO add your handling code here:]
+        GerenciarExposicao exposicao = new GerenciarExposicao();
+        painelPrincipal.add(exposicao);
+        exposicao.setVisible(true);
+    }//GEN-LAST:event_GerenciarExposicaoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -151,6 +169,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem CadastroAcervo;
     private javax.swing.JMenuItem CadastroVisitante;
+    private javax.swing.JMenuItem GerenciarExposicao;
     private javax.swing.JMenuItem GerenciarVisita;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenu menuCadastro;

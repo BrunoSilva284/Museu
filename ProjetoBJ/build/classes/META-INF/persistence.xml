@@ -9,6 +9,8 @@
     <class>br.com.fatec.model.Estudante</class>
     <!-- OBRA & ACERVO -->
     <class>br.com.fatec.model.Obra</class>
+    <class>br.com.fatec.model.Exposicao</class>
+    
     <properties>
       <!-- Propriedades JDBC -->
       <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>

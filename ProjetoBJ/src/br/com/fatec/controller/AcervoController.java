@@ -11,9 +11,7 @@ import br.com.fatec.model.TipoObraEnum;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 /**
  *
@@ -49,12 +47,13 @@ public class AcervoController {
         BancoConexao.desconectar();
         return null;
     }
-    public void alterarObra(String nome, Calendar dataCriacao, String autor, 
-            String descricao, TipoObraEnum TipoObra, String localProducao, String caminhoImagem) throws SQLException, ClassNotFoundException, NullPointerException {
-        Obra obra = consultarObra(nome);
+    public void alterarObra(String busca, String nome, Calendar dataCriacao, String autor, 
+            String descricao, TipoObraEnum tipoObra, String localProducao, String caminhoImagem) throws SQLException, ClassNotFoundException, NullPointerException {
+        Obra obra = consultarObra(busca);
+        obra.setNome(nome);
         obra.setAutor(autor);
         obra.setCaminhoImg(caminhoImagem);
-        obra.setClassificacao(TipoObra);
+        obra.setClassificacao(tipoObra);
         obra.setDataCriacao(dataCriacao);
         obra.setDescricao(descricao);
         obra.setLocalProducao(localProducao);
@@ -64,16 +63,9 @@ public class AcervoController {
     }
     
     public void excluirObra(String nome) throws SQLException, ClassNotFoundException, NullPointerException {
-        BancoConexao.conectar();
-        PreparedStatement stm = BancoConexao.getConexao().prepareStatement("SELECT max(codigo) FROM OBRA"
-                + " WHERE nome ='" + nome + "'");
-        ResultSet rs = stm.executeQuery();
-        if(rs.next()){
-            Obra obra = BancoConexao.buscar(Obra.class, rs.getInt("max(codigo)"));
-            System.out.println(obra.getAutor()+" "+obra.getDescricao());
-            BancoConexao.remover(obra);
-        }        
-        BancoConexao.desconectar();
+        Obra obra = this.consultarObra(nome);
+        System.out.println(obra.getAutor()+" "+obra.getDescricao());
+        BancoConexao.remover(obra);
     }
     
 }

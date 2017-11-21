@@ -5,13 +5,19 @@
  */
 package br.com.fatec.view;
 
+import br.com.fatec.controller.AcervoController;
 import br.com.fatec.controller.ExposicaoController;
+import br.com.fatec.controller.Mascaras;
 import br.com.fatec.model.Exposicao;
 import br.com.fatec.model.Obra;
 import java.sql.SQLException;
 import java.util.Calendar;
+import java.sql.Date;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -22,6 +28,8 @@ import javax.swing.table.DefaultTableModel;
 public class GerenciarExposicao extends javax.swing.JInternalFrame {
     
     private ExposicaoController ger = new ExposicaoController();
+    private AcervoController acervo = new AcervoController();
+    private Obra obra;
     /**
      * Creates new form GerenciarAcervo
      */
@@ -30,6 +38,7 @@ public class GerenciarExposicao extends javax.swing.JInternalFrame {
         txtAutorObra.setEditable(false);
         txtNomeObra.setEditable(false);
         txtTipoObra.setEditable(false);
+        limparCampos();
     }
     
     private void limparCampos(){
@@ -111,6 +120,9 @@ public class GerenciarExposicao extends javax.swing.JInternalFrame {
         ));
         jScrollPane1.setViewportView(jTable1);
 
+        setClosable(true);
+        setIconifiable(true);
+        setMaximizable(true);
         setTitle("Gerenciar Exposição");
         setToolTipText("");
 
@@ -129,9 +141,18 @@ public class GerenciarExposicao extends javax.swing.JInternalFrame {
 
         jLabel3.setText("Data Inicio:");
 
+        txtDataInicial.setFormatterFactory(Mascaras.data());
+
         lbDataFim.setText("Data Fim");
 
+        txtDataFim.setFormatterFactory(Mascaras.data());
+
         ckPermanente.setText("Permanente");
+        ckPermanente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ckPermanenteActionPerformed(evt);
+            }
+        });
 
         jLabel5.setText("Obras na exposição");
 
@@ -161,6 +182,11 @@ public class GerenciarExposicao extends javax.swing.JInternalFrame {
         jLabel7.setText("Nome da obra:");
 
         btBuscarObra.setText("Buscar");
+        btBuscarObra.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btBuscarObraActionPerformed(evt);
+            }
+        });
 
         jLabel8.setText("Dados Obra");
 
@@ -171,6 +197,11 @@ public class GerenciarExposicao extends javax.swing.JInternalFrame {
         jLabel11.setText("Tipo de obra:");
 
         btAdicionarObra.setText("Adicionar à exposição");
+        btAdicionarObra.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btAdicionarObraActionPerformed(evt);
+            }
+        });
 
         btRemoverObra.setText("Remover da exposição");
 
@@ -226,6 +257,11 @@ public class GerenciarExposicao extends javax.swing.JInternalFrame {
         );
 
         btCadastrarExpo.setText("Cadastrar");
+        btCadastrarExpo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCadastrarExpoActionPerformed(evt);
+            }
+        });
 
         btAlterarExpo.setText("Alterar");
 
@@ -387,11 +423,14 @@ public class GerenciarExposicao extends javax.swing.JInternalFrame {
                 }
                 
                 DefaultTableModel model = (DefaultTableModel) tbObras.getModel();
-                Set<Obra> obras = exposicao.getObras();
-                Iterator<Obra> obrIt = obras.iterator();
-                while(obrIt.hasNext()){
-                    Obra obra = obrIt.next();
-                    model.addRow(new Object[]{obra.getNome(), obra.getAutor(),obra.getClassificacao().toString()});
+                Set<Obra> obras; 
+                if(!exposicao.getObras().isEmpty()){
+                    obras = exposicao.getObras();
+                    Iterator<Obra> obrIt = obras.iterator();
+                    while(obrIt.hasNext()){
+                        Obra obra = obrIt.next();
+                        model.addRow(new Object[]{obra.getNome(), obra.getAutor(),obra.getClassificacao().toString()});
+                    }
                 }
             }catch(NullPointerException ex){
                 JOptionPane.showMessageDialog(this, "Exposição não encontrada!", "Alerta", JOptionPane.INFORMATION_MESSAGE);
@@ -400,6 +439,86 @@ public class GerenciarExposicao extends javax.swing.JInternalFrame {
             }
         }
     }//GEN-LAST:event_btBuscarExpoActionPerformed
+
+    private void btCadastrarExpoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCadastrarExpoActionPerformed
+        // TODO add your handling code here:
+        if(txtNome.getText().equals("") || txtDataInicial.getText().equals("    -  -  ") 
+                || (ckPermanente.isSelected() && txtDataFim.getText().equals("    -  -  "))){
+            JOptionPane.showMessageDialog(null, "Preencha todos os campos", "Atenção", JOptionPane.ERROR_MESSAGE);
+        }
+        else
+        {
+            try {
+                Calendar dataCal = Calendar.getInstance();
+                Date data = Date.valueOf(txtDataInicial.getText());
+                dataCal.setTime(data);
+                Exposicao expo = new Exposicao();
+                expo.setNome(txtNome.getText());            
+                expo.setDataInicio(dataCal);
+                if(!ckPermanente.isSelected()){
+                    data = Date.valueOf(txtDataFim.getText());
+                    dataCal.setTime(data);
+                    expo.setDataFim(dataCal);
+                    expo.setTipo("TEMPORARIA");
+                }
+                else{
+                    expo.setTipo("PERMANENTE");
+                }
+                DefaultTableModel model = (DefaultTableModel) tbObras.getModel();
+                Set<Obra> obras = new HashSet<>();
+                int i = model.getRowCount();
+                int j = 1;
+                while(j<=i){
+                    Obra obra = acervo.consultarObra((String)model.getValueAt(j, 0));
+                    obras.add(obra);
+                    j++;
+                }
+                expo.setObras(obras);
+                
+                ger.registrarExposicao(expo);
+                limparCampos();
+                JOptionPane.showMessageDialog(null, "Cadastrado com sucesso!", "Atenção", JOptionPane.INFORMATION_MESSAGE);
+            } catch (SQLException ex) {
+                Logger.getLogger(GerenciarExposicao.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(GerenciarExposicao.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (NullPointerException ex) {
+                Logger.getLogger(GerenciarExposicao.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_btCadastrarExpoActionPerformed
+
+    private void btBuscarObraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btBuscarObraActionPerformed
+        // TODO add your handling code here:
+        if(txtBuscaObra.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "Preencha o nome da obra", "Atenção", JOptionPane.ERROR_MESSAGE);
+        }
+        else{
+            try {
+                this.obra = acervo.consultarObra(txtBuscaObra.getText());
+                btAdicionarObra.setEnabled(true);                
+            } catch (SQLException ex) {
+                Logger.getLogger(GerenciarExposicao.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(GerenciarExposicao.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (NullPointerException ex) {
+                Logger.getLogger(GerenciarExposicao.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_btBuscarObraActionPerformed
+
+    private void btAdicionarObraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAdicionarObraActionPerformed
+        // TODO add your handling code here:
+        DefaultTableModel model = (DefaultTableModel) tbObras.getModel();
+        model.addRow(new Object[]{obra.getNome(), obra.getAutor(),obra.getClassificacao().toString()});
+    }//GEN-LAST:event_btAdicionarObraActionPerformed
+
+    private void ckPermanenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ckPermanenteActionPerformed
+        // TODO add your handling code here:
+        if(ckPermanente.isSelected()){
+            txtDataFim.setVisible(true);
+        }
+    }//GEN-LAST:event_ckPermanenteActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

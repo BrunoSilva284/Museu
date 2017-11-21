@@ -29,4 +29,8 @@ public class ExposicaoController {
         BancoConexao.desconectar();
         return null;
     }
+    
+    public void registrarExposicao(Exposicao exposicao) throws SQLException, ClassNotFoundException, NullPointerException{
+        BancoConexao.salvar(exposicao);
+    }
 }

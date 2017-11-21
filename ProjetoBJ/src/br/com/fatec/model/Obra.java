@@ -12,6 +12,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -34,6 +35,8 @@ public class Obra {
     private String localProducao;
     private String caminhoImg;
     private StatusObraEnum status;
+    @OneToOne
+    private Exposicao exposicao;
 
     public long getCodigo() {
         return codigo;
@@ -105,6 +108,14 @@ public class Obra {
 
     public void setStatus(StatusObraEnum status) {
         this.status = status;
+    }
+
+    public Exposicao getExposicao() {
+        return exposicao;
+    }
+
+    public void setExposicao(Exposicao exposicao) {
+        this.exposicao = exposicao;
     }
     
 }

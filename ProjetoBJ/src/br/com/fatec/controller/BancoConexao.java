@@ -6,9 +6,11 @@
 package br.com.fatec.controller;
 
 import java.sql.*;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
  
 /**
  *
@@ -60,6 +62,19 @@ public class BancoConexao {
         
         em.close();
         emf.close();
+    }
+    
+    public static <T extends Object>T buscarLista(String jpql){
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("museu");
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        Query query = em.createQuery(jpql);
+
+        List<T> resultados = query.getResultList(); 
+
+        em.getTransaction().commit();
+        em.close();
+        return (T) resultados;
     }
     
     public static <T extends Object> T buscar(Class<T> classe, Object parametro_busca){
