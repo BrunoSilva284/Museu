@@ -5,7 +5,9 @@
  */
 package br.com.fatec.model;
 
+import br.com.fatec.controller.BancoConexao;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -67,6 +69,8 @@ public class Exposicao {
     }
 
     public Set<Obra> getObras() {
+        Set<Obra> obrass = new HashSet<>(BancoConexao.buscarLista("select o from Obra o where exposicao_codigo = "+ this.getCodigo()));
+        setObras(obrass);
         return obras;
     }
 

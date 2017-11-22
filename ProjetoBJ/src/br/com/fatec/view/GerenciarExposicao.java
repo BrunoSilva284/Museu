@@ -19,7 +19,9 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import org.hibernate.cfg.annotations.reflection.XMLContext;
 
 /**
  *
@@ -27,8 +29,9 @@ import javax.swing.table.DefaultTableModel;
  */
 public class GerenciarExposicao extends javax.swing.JInternalFrame {
     
-    private ExposicaoController ger = new ExposicaoController();
-    private AcervoController acervo = new AcervoController();
+    private String nomeAntigo;
+    private final ExposicaoController ger = new ExposicaoController();
+    private final AcervoController acervo = new AcervoController();
     private Obra obra;
     /**
      * Creates new form GerenciarAcervo
@@ -52,7 +55,8 @@ public class GerenciarExposicao extends javax.swing.JInternalFrame {
         txtTipoObra.setText("");
         tbObras.setModel(new DefaultTableModel());
         
-        ckPermanente.setSelected(true);
+        ckPermanente.setSelected(false);
+        ckPermanente.setEnabled(true);
         txtDataFim.setVisible(true);
         lbDataFim.setVisible(true);
         
@@ -62,7 +66,12 @@ public class GerenciarExposicao extends javax.swing.JInternalFrame {
         btCadastrarExpo.setEnabled(true);
         btExcluirExpo.setEnabled(false);
         btRemoverObra.setEnabled(false);
+        
+        DefaultTableModel model = (DefaultTableModel) tbObras.getModel();
+        model = new DefaultTableModel(new String[] {"Nome Obra", "Autor", "Tipo de Obra"},0);
+        tbObras.setModel(model);
     }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -106,6 +115,7 @@ public class GerenciarExposicao extends javax.swing.JInternalFrame {
         btCadastrarExpo = new javax.swing.JButton();
         btAlterarExpo = new javax.swing.JButton();
         btExcluirExpo = new javax.swing.JButton();
+        btLimpar = new javax.swing.JButton();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -264,8 +274,25 @@ public class GerenciarExposicao extends javax.swing.JInternalFrame {
         });
 
         btAlterarExpo.setText("Alterar");
+        btAlterarExpo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btAlterarExpoActionPerformed(evt);
+            }
+        });
 
         btExcluirExpo.setText("Excluir");
+        btExcluirExpo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btExcluirExpoActionPerformed(evt);
+            }
+        });
+
+        btLimpar.setText("Limpar");
+        btLimpar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btLimparActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -303,7 +330,9 @@ public class GerenciarExposicao extends javax.swing.JInternalFrame {
                                         .addGap(23, 23, 23)
                                         .addComponent(txtDataFim)))
                                 .addGap(18, 18, 18)
-                                .addComponent(ckPermanente))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(ckPermanente)
+                                    .addComponent(btLimpar)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(97, 97, 97)
                                 .addComponent(jLabel7)
@@ -335,7 +364,8 @@ public class GerenciarExposicao extends javax.swing.JInternalFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btCadastrarExpo)
                             .addComponent(btAlterarExpo)
-                            .addComponent(btExcluirExpo))
+                            .addComponent(btExcluirExpo)
+                            .addComponent(btLimpar))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -401,7 +431,8 @@ public class GerenciarExposicao extends javax.swing.JInternalFrame {
         else{
             try {
                 Exposicao exposicao = ger.consultarExposicao(txtBusca.getText());
-                txtNome.setText(exposicao.getNome());                
+                txtNome.setText(exposicao.getNome());      
+                nomeAntigo = exposicao.getNome();
                 Calendar data =exposicao.getDataInicio();
                 
                 String formatada =""+data.get(Calendar.YEAR)
@@ -415,11 +446,14 @@ public class GerenciarExposicao extends javax.swing.JInternalFrame {
                             +"-"+(data.get(Calendar.MONTH)+1)
                             +"-"+data.get(Calendar.DAY_OF_MONTH);
                     txtDataFim.setText(formatada);
+                    txtDataFim.setVisible(true);
+                    ckPermanente.setSelected(false);
                 }
                 else{
                     lbDataFim.setVisible(false);
                     txtDataFim.setVisible(false);
                     ckPermanente.setSelected(true);
+                    ckPermanente.setEnabled(true);
                 }
                 
                 DefaultTableModel model = (DefaultTableModel) tbObras.getModel();
@@ -432,6 +466,10 @@ public class GerenciarExposicao extends javax.swing.JInternalFrame {
                         model.addRow(new Object[]{obra.getNome(), obra.getAutor(),obra.getClassificacao().toString()});
                     }
                 }
+                btCadastrarExpo.setEnabled(false);
+                btAlterarExpo.setEnabled(true);
+                btExcluirExpo.setEnabled(true);
+                btBuscarObra.setEnabled(true);
             }catch(NullPointerException ex){
                 JOptionPane.showMessageDialog(this, "Exposição não encontrada!", "Alerta", JOptionPane.INFORMATION_MESSAGE);
             }catch (ClassNotFoundException | SQLException ex) {
@@ -443,7 +481,7 @@ public class GerenciarExposicao extends javax.swing.JInternalFrame {
     private void btCadastrarExpoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCadastrarExpoActionPerformed
         // TODO add your handling code here:
         if(txtNome.getText().equals("") || txtDataInicial.getText().equals("    -  -  ") 
-                || (ckPermanente.isSelected() && txtDataFim.getText().equals("    -  -  "))){
+                || (!ckPermanente.isSelected() && txtDataFim.getText().equals("    -  -  "))){
             JOptionPane.showMessageDialog(null, "Preencha todos os campos", "Atenção", JOptionPane.ERROR_MESSAGE);
         }
         else
@@ -478,11 +516,7 @@ public class GerenciarExposicao extends javax.swing.JInternalFrame {
                 ger.registrarExposicao(expo);
                 limparCampos();
                 JOptionPane.showMessageDialog(null, "Cadastrado com sucesso!", "Atenção", JOptionPane.INFORMATION_MESSAGE);
-            } catch (SQLException ex) {
-                Logger.getLogger(GerenciarExposicao.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(GerenciarExposicao.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (NullPointerException ex) {
+            } catch (SQLException | ClassNotFoundException | NullPointerException ex) {
                 Logger.getLogger(GerenciarExposicao.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -496,29 +530,98 @@ public class GerenciarExposicao extends javax.swing.JInternalFrame {
         else{
             try {
                 this.obra = acervo.consultarObra(txtBuscaObra.getText());
+                txtAutorObra.setText(this.obra.getAutor());
+                txtNomeObra.setText(this.obra.getNome());
+                txtTipoObra.setText(this.obra.getClassificacao().toString());
                 btAdicionarObra.setEnabled(true);                
-            } catch (SQLException ex) {
-                Logger.getLogger(GerenciarExposicao.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(GerenciarExposicao.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (NullPointerException ex) {
+            } catch (SQLException | ClassNotFoundException | NullPointerException ex) {
                 Logger.getLogger(GerenciarExposicao.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_btBuscarObraActionPerformed
 
     private void btAdicionarObraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAdicionarObraActionPerformed
-        // TODO add your handling code here:
+        // TODO add your handling code here:        
         DefaultTableModel model = (DefaultTableModel) tbObras.getModel();
         model.addRow(new Object[]{obra.getNome(), obra.getAutor(),obra.getClassificacao().toString()});
+        tbObras.setModel(model);
+        
     }//GEN-LAST:event_btAdicionarObraActionPerformed
 
     private void ckPermanenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ckPermanenteActionPerformed
         // TODO add your handling code here:
-        if(ckPermanente.isSelected()){
+        if(!ckPermanente.isSelected()){
             txtDataFim.setVisible(true);
         }
+        else{
+            txtDataFim.setVisible(false);
+        }
     }//GEN-LAST:event_ckPermanenteActionPerformed
+
+    private void btLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLimparActionPerformed
+        // TODO add your handling code here:
+        limparCampos();
+    }//GEN-LAST:event_btLimparActionPerformed
+
+    private void btAlterarExpoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAlterarExpoActionPerformed
+        // TODO add your handling code here:
+        if(txtNome.getText().equals("") || txtDataInicial.getText().equals("    -  -  ") 
+                || (!ckPermanente.isSelected() && txtDataFim.getText().equals("    -  -  "))){
+            JOptionPane.showMessageDialog(null, "Preencha todos os campos", "Atenção", JOptionPane.ERROR_MESSAGE);
+        }
+        else
+        {
+            try {
+                Calendar dataCal = Calendar.getInstance();
+                Date data = Date.valueOf(txtDataInicial.getText());
+                dataCal.setTime(data);
+                Exposicao expo = new Exposicao();
+                expo.setNome(txtNome.getText());            
+                expo.setDataInicio(dataCal);
+                if(!ckPermanente.isSelected()){
+                    data = Date.valueOf(txtDataFim.getText());
+                    dataCal.setTime(data);
+                    expo.setDataFim(dataCal);
+                    expo.setTipo("TEMPORARIA");
+                }
+                else{
+                    expo.setTipo("PERMANENTE");
+                }
+                DefaultTableModel model = (DefaultTableModel) tbObras.getModel();
+                Set<Obra> obras = new HashSet<>();
+                int i = model.getRowCount();
+                int j = 1;
+                while(j<=i){
+                    Obra obra = acervo.consultarObra((String)model.getValueAt(j, 0));
+                    obras.add(obra);
+                    j++;
+                }
+                expo.setObras(obras);
+                
+                ger.atualizarExposicao(expo, nomeAntigo);
+                limparCampos();
+                JOptionPane.showMessageDialog(null, "Alterado com sucesso!", "Atenção", JOptionPane.INFORMATION_MESSAGE);
+            } catch (SQLException | ClassNotFoundException | NullPointerException ex) {
+                Logger.getLogger(GerenciarExposicao.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_btAlterarExpoActionPerformed
+
+    private void btExcluirExpoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btExcluirExpoActionPerformed
+        // TODO add your handling code here:
+        int opc = JOptionPane.showConfirmDialog(this, "Deseja realmente excluir esse registro?", "Atenção", JOptionPane.INFORMATION_MESSAGE);
+        if(opc==JOptionPane.YES_OPTION){
+            try {
+                ger.excluirExposicao(txtNome.getText());
+                JOptionPane.showMessageDialog(this, "Removido com sucesso!", "Atenção", JOptionPane.INFORMATION_MESSAGE);
+                limparCampos();
+            }catch(NullPointerException ex){
+                JOptionPane.showMessageDialog(this, "Exposição não encontrada!", "Alerta", JOptionPane.INFORMATION_MESSAGE);
+            } catch (SQLException | ClassNotFoundException ex) {
+                Logger.getLogger(CadastroAcervo.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_btExcluirExpoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -528,6 +631,7 @@ public class GerenciarExposicao extends javax.swing.JInternalFrame {
     private javax.swing.JButton btBuscarObra;
     private javax.swing.JButton btCadastrarExpo;
     private javax.swing.JButton btExcluirExpo;
+    private javax.swing.JButton btLimpar;
     private javax.swing.JButton btRemoverObra;
     private javax.swing.JCheckBox ckPermanente;
     private javax.swing.JLabel jLabel1;

@@ -58,7 +58,7 @@ public class GerenciarVisitaController {
                 retorno.add(visitante.getDocumentoEscolar());
             }
             else{
-                Visitante visitante = (Estudante)consultarVisitante(cpf);
+                Visitante visitante = (Visitante)consultarVisitante(cpf);
                 retorno.add(visitante.getCpf());
                 retorno.add(visitante.getEmail());
                 retorno.add(visitante.getNome());
@@ -82,8 +82,8 @@ public class GerenciarVisitaController {
     
     public double valorEntrada(String cpf) throws ClassNotFoundException, SQLException, NullPointerException{
         BancoConexao.conectar();
-        Visita visita = new Visita();                
-        double retorno = visita.getValorEntrada();
+        Visita vis = new Visita();                
+        double retorno = vis.getValorEntrada();
         PreparedStatement stm = BancoConexao.getConexao()
                 .prepareStatement("SELECT DTYPE FROM VISITANTE"
                 + " WHERE cpf = '" + cpf + "'");
@@ -167,7 +167,7 @@ public class GerenciarVisitaController {
         ResultSet rs = stm.executeQuery();
         if(rs.next()){
             Visitante v = BancoConexao.buscar(Visitante.class, rs.getInt("max(idVisitante)"));
-            BancoConexao.remover(v);
+            BancoConexao.remover(v,v.getIdVisitante());
         }        
         BancoConexao.desconectar();
     }

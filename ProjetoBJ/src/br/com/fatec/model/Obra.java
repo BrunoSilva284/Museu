@@ -34,11 +34,12 @@ public class Obra {
     private TipoObraEnum classificacao;
     private String localProducao;
     private String caminhoImg;
+    @Enumerated(EnumType.STRING)
     private StatusObraEnum status;
     @OneToOne
     private Exposicao exposicao;
 
-    public long getCodigo() {
+    public Integer getCodigo() {
         return codigo;
     }
 

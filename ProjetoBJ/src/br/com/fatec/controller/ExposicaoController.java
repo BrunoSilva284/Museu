@@ -33,4 +33,21 @@ public class ExposicaoController {
     public void registrarExposicao(Exposicao exposicao) throws SQLException, ClassNotFoundException, NullPointerException{
         BancoConexao.salvar(exposicao);
     }
+    
+    public void atualizarExposicao(Exposicao exposicao, String busca) throws SQLException, ClassNotFoundException, NullPointerException{
+        Exposicao expo = this.consultarExposicao(busca);
+        
+        expo.setNome(exposicao.getNome());
+        expo.setDataInicio(exposicao.getDataInicio());
+        expo.setDataFim(exposicao.getDataFim());
+        expo.setTipo(exposicao.getTipo());
+        expo.setObras(exposicao.getObras());
+        
+        BancoConexao.atualizar(expo);
+    }
+    
+    public void excluirExposicao(String nome)throws SQLException, ClassNotFoundException, NullPointerException{        
+        Exposicao exposicao = this.consultarExposicao(nome);
+        BancoConexao.remover(exposicao, exposicao.getCodigo());
+    }
 }

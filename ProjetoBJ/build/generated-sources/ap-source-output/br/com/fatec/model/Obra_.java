@@ -17,6 +17,8 @@ public abstract class Obra_ {
 	public static volatile SingularAttribute<Obra, String> caminhoImg;
 	public static volatile SingularAttribute<Obra, String> autor;
 	public static volatile SingularAttribute<Obra, String> descricao;
+	public static volatile SingularAttribute<Obra, StatusObraEnum> status;
+	public static volatile SingularAttribute<Obra, Exposicao> exposicao;
 
 }
 

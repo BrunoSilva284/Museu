@@ -22,11 +22,11 @@ public class BancoConexao {
      * @param e
      */
    //criar variaveis
-    private static String usuario = "root";
-    private static String senha = "root";
-    private static String servidor = "localhost";
-    private static String bd = "museu";
-    private static int porta = 3306;
+    private static final String usuario = "root";
+    private static final String senha = "root";
+    private static final String servidor = "localhost";
+    private static final String bd = "museu";
+    private static final int porta = 3306;
     
     //variavel de conexao
     private static Connection conexao = null;
@@ -53,11 +53,13 @@ public class BancoConexao {
         emf.close();
     }
     
-    public static void remover(Object e){
+    
+    public static void remover(Object e, Object parametro_busca){
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("museu");
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
-        em.remove(e);
+        Object remover = em.find(e.getClass(), parametro_busca);
+        em.remove(remover);
         em.getTransaction().commit();
         
         em.close();

@@ -64,8 +64,7 @@ public class AcervoController {
     
     public void excluirObra(String nome) throws SQLException, ClassNotFoundException, NullPointerException {
         Obra obra = this.consultarObra(nome);
-        System.out.println(obra.getAutor()+" "+obra.getDescricao());
-        BancoConexao.remover(obra);
+        BancoConexao.remover(obra, obra.getCodigo());
     }
     
 }
