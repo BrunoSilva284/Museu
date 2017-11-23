@@ -73,7 +73,7 @@ public class BancoConexao {
         Query query = em.createQuery(jpql);
 
         List<T> resultados = query.getResultList(); 
-
+        
         em.getTransaction().commit();
         em.close();
         return (T) resultados;

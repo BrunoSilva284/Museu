@@ -65,7 +65,7 @@ public class GerenciarVisitaController {
                 retorno.add(visitante.getTelefone());
             }
         }       
-        
+        rs.close();
         BancoConexao.desconectar();
         return retorno;
     }
@@ -77,7 +77,6 @@ public class GerenciarVisitaController {
         visita.setVisitante(this.consultarVisitante(cpf));
         visita.setValorEntrada(valorEntrada(cpf));
         BancoConexao.salvar(visita);
-
     }
     
     public double valorEntrada(String cpf) throws ClassNotFoundException, SQLException, NullPointerException{
@@ -93,7 +92,8 @@ public class GerenciarVisitaController {
             if(tipo.equalsIgnoreCase("Estudante")){
                 retorno = retorno/2;
             }
-        } 
+        }
+        rs.close();
         BancoConexao.desconectar();
         return retorno;
     }
@@ -113,9 +113,10 @@ public class GerenciarVisitaController {
             BancoConexao.atualizar(visita);
         }
         else{
+            rs.close();
             return;
         }
-
+        rs.close();
         BancoConexao.desconectar();
     }
     
@@ -149,13 +150,16 @@ public class GerenciarVisitaController {
             if(rs.getString("DTYPE").equals("ESTUDANTE")){
                 Estudante visit = null;
                 visit = (Estudante) BancoConexao.buscar(Visitante.class, rs.getInt("max(idVisitante)"));
+                rs.close();
                 return visit;
             }else{
                 Visitante visit = null;
                 visit = BancoConexao.buscar(Visitante.class, rs.getInt("max(idVisitante)"));
+                rs.close();
                 return visit;
             }            
         }
+        rs.close();
         BancoConexao.desconectar();
         return null;
     }
@@ -168,7 +172,8 @@ public class GerenciarVisitaController {
         if(rs.next()){
             Visitante v = BancoConexao.buscar(Visitante.class, rs.getInt("max(idVisitante)"));
             BancoConexao.remover(v,v.getIdVisitante());
-        }        
+        }
+        rs.close();
         BancoConexao.desconectar();
     }
     
@@ -176,8 +181,7 @@ public class GerenciarVisitaController {
         BancoConexao.conectar();
         
         PreparedStatement stm = BancoConexao.getConexao()
-                                .prepareStatement("SELECT max(idCartao) "
-                                        + "FROM VISITA");
+                          .prepareStatement("SELECT max(idCartao) FROM VISITA");
         ResultSet rs = stm.executeQuery();
         int idCartao = 1;
         if (rs.next()) { //percorre todos os registros

@@ -12,7 +12,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -36,7 +36,7 @@ public class Obra {
     private String caminhoImg;
     @Enumerated(EnumType.STRING)
     private StatusObraEnum status;
-    @OneToOne
+    @ManyToOne
     private Exposicao exposicao;
 
     public Integer getCodigo() {

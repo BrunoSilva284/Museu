@@ -69,7 +69,7 @@ public class Exposicao {
     }
 
     public Set<Obra> getObras() {
-        Set<Obra> obrass = new HashSet<>(BancoConexao.buscarLista("select o from Obra o where exposicao_codigo = "+ this.getCodigo()));
+        Set<Obra> obrass = new HashSet<>(BancoConexao.buscarLista("select o from Obra o where exposicao_codigo = "+ this.getCodigo()));        
         setObras(obrass);
         return obras;
     }

@@ -60,8 +60,6 @@ public class CadastroVisitante extends javax.swing.JInternalFrame {
         btExcluir = new javax.swing.JButton();
 
         setClosable(true);
-        setIconifiable(true);
-        setMaximizable(true);
         setTitle("Cadastro de Visitante");
 
         txtBusca.setFormatterFactory(Mascaras.cpf());

@@ -24,6 +24,7 @@ public class ExposicaoController {
 
         if (rs.next()) { //percorre todos os registros
             Exposicao exposicao = BancoConexao.buscar(Exposicao.class, rs.getInt("max(codigo)"));
+            rs.close();
             return exposicao;                        
         }
         BancoConexao.desconectar();

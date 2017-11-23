@@ -39,11 +39,11 @@ public class AcervoController {
                 + " WHERE nome like '" + nome + "%'");
         ResultSet rs = stm.executeQuery();
 
-        if (rs.next()) { //percorre todos os registros
-            Obra obra = null;
-            obra = BancoConexao.buscar(Obra.class, rs.getInt("max(codigo)"));
+        if (rs.next()) { //percorre todos os registros            
+            Obra obra = BancoConexao.buscar(Obra.class, rs.getInt("max(codigo)"));
             return obra;                        
         }
+        rs.close();
         BancoConexao.desconectar();
         return null;
     }

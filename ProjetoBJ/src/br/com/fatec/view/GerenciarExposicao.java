@@ -131,8 +131,6 @@ public class GerenciarExposicao extends javax.swing.JInternalFrame {
         jScrollPane1.setViewportView(jTable1);
 
         setClosable(true);
-        setIconifiable(true);
-        setMaximizable(true);
         setTitle("Gerenciar Exposição");
         setToolTipText("");
 
@@ -448,6 +446,7 @@ public class GerenciarExposicao extends javax.swing.JInternalFrame {
                     txtDataFim.setText(formatada);
                     txtDataFim.setVisible(true);
                     ckPermanente.setSelected(false);
+                    ckPermanente.setEnabled(true);
                 }
                 else{
                     lbDataFim.setVisible(false);
@@ -458,13 +457,18 @@ public class GerenciarExposicao extends javax.swing.JInternalFrame {
                 
                 DefaultTableModel model = (DefaultTableModel) tbObras.getModel();
                 Set<Obra> obras; 
-                if(!exposicao.getObras().isEmpty()){
+                if(exposicao.getObras().isEmpty()){                    
                     obras = exposicao.getObras();
                     Iterator<Obra> obrIt = obras.iterator();
                     while(obrIt.hasNext()){
+                        System.out.println("NAO VAZIO");
                         Obra obra = obrIt.next();
+                        System.out.println("NOME: " + obra.getNome());
                         model.addRow(new Object[]{obra.getNome(), obra.getAutor(),obra.getClassificacao().toString()});
                     }
+                }
+                else{
+                    System.out.println("VAZIO");
                 }
                 btCadastrarExpo.setEnabled(false);
                 btAlterarExpo.setEnabled(true);
@@ -511,8 +515,7 @@ public class GerenciarExposicao extends javax.swing.JInternalFrame {
                     obras.add(obra);
                     j++;
                 }
-                expo.setObras(obras);
-                
+                expo.setObras(obras);                
                 ger.registrarExposicao(expo);
                 limparCampos();
                 JOptionPane.showMessageDialog(null, "Cadastrado com sucesso!", "Atenção", JOptionPane.INFORMATION_MESSAGE);
@@ -534,8 +537,10 @@ public class GerenciarExposicao extends javax.swing.JInternalFrame {
                 txtNomeObra.setText(this.obra.getNome());
                 txtTipoObra.setText(this.obra.getClassificacao().toString());
                 btAdicionarObra.setEnabled(true);                
-            } catch (SQLException | ClassNotFoundException | NullPointerException ex) {
+            } catch (SQLException | ClassNotFoundException ex) {
                 Logger.getLogger(GerenciarExposicao.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (NullPointerException ex){
+                JOptionPane.showMessageDialog(this, "Obra não encontrada!", "Alerta", JOptionPane.INFORMATION_MESSAGE);
             }
         }
     }//GEN-LAST:event_btBuscarObraActionPerformed
@@ -590,8 +595,9 @@ public class GerenciarExposicao extends javax.swing.JInternalFrame {
                 DefaultTableModel model = (DefaultTableModel) tbObras.getModel();
                 Set<Obra> obras = new HashSet<>();
                 int i = model.getRowCount();
-                int j = 1;
-                while(j<=i){
+                System.out.println("Linhas: "+i);
+                int j = 0;
+                while(j<i){
                     Obra obra = acervo.consultarObra((String)model.getValueAt(j, 0));
                     obras.add(obra);
                     j++;
@@ -612,7 +618,7 @@ public class GerenciarExposicao extends javax.swing.JInternalFrame {
         int opc = JOptionPane.showConfirmDialog(this, "Deseja realmente excluir esse registro?", "Atenção", JOptionPane.INFORMATION_MESSAGE);
         if(opc==JOptionPane.YES_OPTION){
             try {
-                ger.excluirExposicao(txtNome.getText());
+                ger.excluirExposicao(nomeAntigo);
                 JOptionPane.showMessageDialog(this, "Removido com sucesso!", "Atenção", JOptionPane.INFORMATION_MESSAGE);
                 limparCampos();
             }catch(NullPointerException ex){

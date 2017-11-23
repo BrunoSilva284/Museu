@@ -14,6 +14,7 @@ import java.io.File;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -37,8 +38,11 @@ public class CadastroAcervo extends javax.swing.JInternalFrame {
     private String imagemCaminho;
     public CadastroAcervo() {
         initComponents();
-        cbTipoObra = new JComboBox(TipoObraEnum.values());
+        
         limparCampos();
+        DefaultComboBoxModel model = new DefaultComboBoxModel(TipoObraEnum.values());
+        cbTipoObra.setModel(model);
+        //cbTipoObra = new JComboBox(TipoObraEnum.values());
     }
     
     private void limparCampos(){
@@ -90,8 +94,6 @@ public class CadastroAcervo extends javax.swing.JInternalFrame {
         jSeparator2 = new javax.swing.JSeparator();
 
         setClosable(true);
-        setIconifiable(true);
-        setMaximizable(true);
         setTitle("Cadastro Acervo");
 
         jLabel1.setText("Nome:");
