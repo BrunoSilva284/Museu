@@ -62,6 +62,10 @@ public class AcervoController {
         BancoConexao.atualizar(obra);
     }
     
+    public void atualizarObra(Obra obr) throws SQLException, ClassNotFoundException, NullPointerException {
+        BancoConexao.atualizar(obr);
+    }
+    
     public void excluirObra(String nome) throws SQLException, ClassNotFoundException, NullPointerException {
         Obra obra = this.consultarObra(nome);
         BancoConexao.remover(obra, obra.getCodigo());

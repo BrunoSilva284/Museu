@@ -5,9 +5,8 @@
  */
 package br.com.fatec.model;
 
-import br.com.fatec.controller.BancoConexao;
+import java.io.Serializable;
 import java.util.Calendar;
-import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,7 +21,7 @@ import javax.persistence.TemporalType;
  * @author bruno
  */
 @Entity
-public class Exposicao {
+public class Exposicao implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -69,8 +68,6 @@ public class Exposicao {
     }
 
     public Set<Obra> getObras() {
-        Set<Obra> obrass = new HashSet<>(BancoConexao.buscarLista("select o from Obra o where exposicao_codigo = "+ this.getCodigo()));        
-        setObras(obrass);
         return obras;
     }
 

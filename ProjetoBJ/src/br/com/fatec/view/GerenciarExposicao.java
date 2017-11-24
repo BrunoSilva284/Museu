@@ -10,6 +10,7 @@ import br.com.fatec.controller.ExposicaoController;
 import br.com.fatec.controller.Mascaras;
 import br.com.fatec.model.Exposicao;
 import br.com.fatec.model.Obra;
+import br.com.fatec.model.StatusObraEnum;
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.sql.Date;
@@ -180,6 +181,9 @@ public class GerenciarExposicao extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
+        tbObras.setCellSelectionEnabled(true);
+        tbObras.setEnabled(false);
+        tbObras.setFocusable(false);
         jScrollPane2.setViewportView(tbObras);
         if (tbObras.getColumnModel().getColumnCount() > 0) {
             tbObras.getColumnModel().getColumn(0).setResizable(false);
@@ -421,13 +425,28 @@ public class GerenciarExposicao extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private Exposicao retornarObras(Exposicao expo) throws SQLException, ClassNotFoundException{
+        DefaultTableModel model = (DefaultTableModel) tbObras.getModel();
+        Set<Obra> obras = new HashSet<>();
+        int i = model.getRowCount();
+        int j = 0;
+        while(j<i){
+            Obra obra = acervo.consultarObra((String)model.getValueAt(j, 0));
+            obra.setStatus(StatusObraEnum.EXIBICAO);
+            obras.add(obra);
+            j++;
+        }
+        expo.setObras(obras);  
+        return expo;
+    }
+    
     private void btBuscarExpoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btBuscarExpoActionPerformed
         // TODO add your handling code here:
         if(txtBusca.getText().equals("")){
             JOptionPane.showMessageDialog(null, "Digite o nome da exposição", "Atenção", JOptionPane.INFORMATION_MESSAGE);
         }
         else{
-            try {
+            try {                
                 Exposicao exposicao = ger.consultarExposicao(txtBusca.getText());
                 txtNome.setText(exposicao.getNome());      
                 nomeAntigo = exposicao.getNome();
@@ -438,26 +457,29 @@ public class GerenciarExposicao extends javax.swing.JInternalFrame {
                         +"-"+data.get(Calendar.DAY_OF_MONTH);
                 txtDataInicial.setText(formatada);
                 
-                if(!exposicao.getTipo().equals("PERMANENTE")){
-                    data =exposicao.getDataFim();                
-                    formatada =""+data.get(Calendar.YEAR)
-                            +"-"+(data.get(Calendar.MONTH)+1)
-                            +"-"+data.get(Calendar.DAY_OF_MONTH);
-                    txtDataFim.setText(formatada);
-                    txtDataFim.setVisible(true);
-                    ckPermanente.setSelected(false);
-                    ckPermanente.setEnabled(true);
-                }
-                else{
+                if(exposicao.getTipo().equals("PERMANENTE")){
                     lbDataFim.setVisible(false);
                     txtDataFim.setVisible(false);
                     ckPermanente.setSelected(true);
                     ckPermanente.setEnabled(true);
                 }
+                else{
+                    System.out.println("Nao permanente");
+                    data =exposicao.getDataFim();                
+                    formatada =""+data.get(Calendar.YEAR)
+                            +"-"+(data.get(Calendar.MONTH)+1)
+                            +"-"+data.get(Calendar.DAY_OF_MONTH);
+                    System.out.println(formatada);
+                    txtDataFim.setVisible(true);
+                    txtDataFim.setText(formatada);                    
+                    ckPermanente.setSelected(false);
+                    ckPermanente.setEnabled(true);
+                    
+                }
                 
-                DefaultTableModel model = (DefaultTableModel) tbObras.getModel();
+                DefaultTableModel model = new DefaultTableModel(new String[] {"Nome Obra", "Autor", "Tipo de Obra"},0);
                 Set<Obra> obras; 
-                if(exposicao.getObras().isEmpty()){                    
+                if(!exposicao.getObras().isEmpty()){                    
                     obras = exposicao.getObras();
                     Iterator<Obra> obrIt = obras.iterator();
                     while(obrIt.hasNext()){
@@ -465,9 +487,11 @@ public class GerenciarExposicao extends javax.swing.JInternalFrame {
                         Obra obra = obrIt.next();
                         System.out.println("NOME: " + obra.getNome());
                         model.addRow(new Object[]{obra.getNome(), obra.getAutor(),obra.getClassificacao().toString()});
+                        tbObras.setModel(model);
                     }
                 }
                 else{
+                    tbObras.setModel(model);
                     System.out.println("VAZIO");
                 }
                 btCadastrarExpo.setEnabled(false);
@@ -506,16 +530,7 @@ public class GerenciarExposicao extends javax.swing.JInternalFrame {
                 else{
                     expo.setTipo("PERMANENTE");
                 }
-                DefaultTableModel model = (DefaultTableModel) tbObras.getModel();
-                Set<Obra> obras = new HashSet<>();
-                int i = model.getRowCount();
-                int j = 1;
-                while(j<=i){
-                    Obra obra = acervo.consultarObra((String)model.getValueAt(j, 0));
-                    obras.add(obra);
-                    j++;
-                }
-                expo.setObras(obras);                
+                expo = retornarObras(expo);
                 ger.registrarExposicao(expo);
                 limparCampos();
                 JOptionPane.showMessageDialog(null, "Cadastrado com sucesso!", "Atenção", JOptionPane.INFORMATION_MESSAGE);
@@ -533,10 +548,20 @@ public class GerenciarExposicao extends javax.swing.JInternalFrame {
         else{
             try {
                 this.obra = acervo.consultarObra(txtBuscaObra.getText());
-                txtAutorObra.setText(this.obra.getAutor());
-                txtNomeObra.setText(this.obra.getNome());
-                txtTipoObra.setText(this.obra.getClassificacao().toString());
-                btAdicionarObra.setEnabled(true);                
+                switch(this.obra.getStatus()){
+                    case EXIBICAO:
+                        JOptionPane.showMessageDialog(this, "Obra já esta em exibição!", "Alerta", JOptionPane.INFORMATION_MESSAGE);
+                        break;
+                    case RESTAURANDO:
+                        JOptionPane.showMessageDialog(this, "Obra esta em restauração!", "Alerta", JOptionPane.INFORMATION_MESSAGE);
+                        break;
+                    default:
+                        txtAutorObra.setText(this.obra.getAutor());
+                        txtNomeObra.setText(this.obra.getNome());
+                        txtTipoObra.setText(this.obra.getClassificacao().toString());
+                        btAdicionarObra.setEnabled(true);
+                    break;
+                }
             } catch (SQLException | ClassNotFoundException ex) {
                 Logger.getLogger(GerenciarExposicao.class.getName()).log(Level.SEVERE, null, ex);
             } catch (NullPointerException ex){
@@ -556,9 +581,11 @@ public class GerenciarExposicao extends javax.swing.JInternalFrame {
     private void ckPermanenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ckPermanenteActionPerformed
         // TODO add your handling code here:
         if(!ckPermanente.isSelected()){
+            lbDataFim.setVisible(true);
             txtDataFim.setVisible(true);
         }
         else{
+            lbDataFim.setVisible(false);
             txtDataFim.setVisible(false);
         }
     }//GEN-LAST:event_ckPermanenteActionPerformed
@@ -592,17 +619,7 @@ public class GerenciarExposicao extends javax.swing.JInternalFrame {
                 else{
                     expo.setTipo("PERMANENTE");
                 }
-                DefaultTableModel model = (DefaultTableModel) tbObras.getModel();
-                Set<Obra> obras = new HashSet<>();
-                int i = model.getRowCount();
-                System.out.println("Linhas: "+i);
-                int j = 0;
-                while(j<i){
-                    Obra obra = acervo.consultarObra((String)model.getValueAt(j, 0));
-                    obras.add(obra);
-                    j++;
-                }
-                expo.setObras(obras);
+                expo = this.retornarObras(expo);
                 
                 ger.atualizarExposicao(expo, nomeAntigo);
                 limparCampos();
