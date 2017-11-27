@@ -8,21 +8,24 @@ package br.com.fatec.view;
 import br.com.fatec.controller.AcervoController;
 import br.com.fatec.controller.ExposicaoController;
 import br.com.fatec.controller.Mascaras;
+import br.com.fatec.controller.SalaController;
 import br.com.fatec.model.Exposicao;
 import br.com.fatec.model.Obra;
+import br.com.fatec.model.Sala;
 import br.com.fatec.model.StatusObraEnum;
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import org.hibernate.cfg.annotations.reflection.XMLContext;
 
 /**
  *
@@ -33,15 +36,26 @@ public class GerenciarExposicao extends javax.swing.JInternalFrame {
     private String nomeAntigo;
     private final ExposicaoController ger = new ExposicaoController();
     private final AcervoController acervo = new AcervoController();
+    private final SalaController salaGer = new SalaController();
     private Obra obra;
     /**
      * Creates new form GerenciarAcervo
+     * @throws java.sql.SQLException
+     * @throws java.lang.ClassNotFoundException
      */
-    public GerenciarExposicao() {
+    public GerenciarExposicao() throws SQLException, ClassNotFoundException {
         initComponents();
         txtAutorObra.setEditable(false);
         txtNomeObra.setEditable(false);
         txtTipoObra.setEditable(false);
+        ArrayList<Sala> salas = (ArrayList) salaGer.listarSalas();
+        ArrayList<Integer> numeros= new ArrayList<>();
+        for(Sala sala : salas){
+            numeros.add(sala.getNumero());
+        }
+        Object[] array = numeros.toArray();
+        DefaultComboBoxModel model = new DefaultComboBoxModel(array);
+        cbSala.setModel(model);
         limparCampos();
     }
     
@@ -63,10 +77,12 @@ public class GerenciarExposicao extends javax.swing.JInternalFrame {
         
         btAdicionarObra.setEnabled(false);
         btAlterarExpo.setEnabled(false);
-        btBuscarObra.setEnabled(false);
+        btBuscarObra.setEnabled(true);
         btCadastrarExpo.setEnabled(true);
         btExcluirExpo.setEnabled(false);
         btRemoverObra.setEnabled(false);
+        lbLotacao.setText("Lotação:");
+        cbSala.setSelectedIndex(0);
         
         DefaultTableModel model = (DefaultTableModel) tbObras.getModel();
         model = new DefaultTableModel(new String[] {"Nome Obra", "Autor", "Tipo de Obra"},0);
@@ -117,6 +133,9 @@ public class GerenciarExposicao extends javax.swing.JInternalFrame {
         btAlterarExpo = new javax.swing.JButton();
         btExcluirExpo = new javax.swing.JButton();
         btLimpar = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        cbSala = new javax.swing.JComboBox<>();
+        lbLotacao = new javax.swing.JLabel();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -181,7 +200,7 @@ public class GerenciarExposicao extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        tbObras.setCellSelectionEnabled(true);
+        tbObras.setColumnSelectionAllowed(false);
         tbObras.setEnabled(false);
         tbObras.setFocusable(false);
         jScrollPane2.setViewportView(tbObras);
@@ -296,6 +315,16 @@ public class GerenciarExposicao extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel4.setText("Sala:");
+
+        cbSala.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbSalaActionPerformed(evt);
+            }
+        });
+
+        lbLotacao.setText("Lotação:");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -307,74 +336,91 @@ public class GerenciarExposicao extends javax.swing.JInternalFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(jLabel2)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGap(14, 14, 14)
-                                        .addComponent(btCadastrarExpo)
-                                        .addGap(35, 35, 35)
-                                        .addComponent(btAlterarExpo)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(btExcluirExpo)))
-                                .addGap(30, 30, 30)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel3)
+                                        .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(txtDataInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(jLabel4)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(cbSala, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(lbDataFim)
-                                        .addGap(23, 23, 23)
-                                        .addComponent(txtDataFim)))
-                                .addGap(18, 18, 18)
+                                        .addComponent(btCadastrarExpo)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(btAlterarExpo)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(btExcluirExpo)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(btLimpar)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(ckPermanente)
-                                    .addComponent(btLimpar)))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addComponent(jLabel3)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(txtDataInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addComponent(lbDataFim)
+                                                .addGap(23, 23, 23)
+                                                .addComponent(txtDataFim, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(ckPermanente))
+                                    .addComponent(lbLotacao)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(97, 97, 97)
-                                .addComponent(jLabel7)
-                                .addGap(59, 59, 59)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel6)
+                                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(txtBuscaObra, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(52, 52, 52)
-                                        .addComponent(btBuscarObra))))))
+                                        .addGap(97, 97, 97)
+                                        .addComponent(jLabel7)
+                                        .addGap(59, 59, 59)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel6)
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addComponent(txtBuscaObra, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(52, 52, 52)
+                                                .addComponent(btBuscarObra)))))
+                                .addGap(0, 21, Short.MAX_VALUE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(244, 244, 244)
                         .addComponent(jLabel5)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(10, 10, 10))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3)
-                    .addComponent(txtDataInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ckPermanente))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4)
+                            .addComponent(cbSala, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btCadastrarExpo)
                             .addComponent(btAlterarExpo)
                             .addComponent(btExcluirExpo)
-                            .addComponent(btLimpar))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(btLimpar)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(lbLotacao)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lbDataFim)
-                            .addComponent(txtDataFim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(28, 28, 28)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(lbDataFim)
+                                    .addComponent(txtDataFim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel3)
+                                .addComponent(txtDataInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(ckPermanente))
+                        .addGap(3, 3, 3)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel6)
@@ -434,6 +480,7 @@ public class GerenciarExposicao extends javax.swing.JInternalFrame {
             Obra obra = acervo.consultarObra((String)model.getValueAt(j, 0));
             obra.setStatus(StatusObraEnum.EXIBICAO);
             obras.add(obra);
+            System.out.println(obra.getNome());
             j++;
         }
         expo.setObras(obras);  
@@ -451,7 +498,8 @@ public class GerenciarExposicao extends javax.swing.JInternalFrame {
                 txtNome.setText(exposicao.getNome());      
                 nomeAntigo = exposicao.getNome();
                 Calendar data =exposicao.getDataInicio();
-                
+                cbSala.setSelectedItem(exposicao.getSala().getNumero());
+                lbLotacao.setText("Lotação: "+exposicao.getSala().getQtdVisitantes());
                 String formatada =""+data.get(Calendar.YEAR)
                         +"-"+(data.get(Calendar.MONTH)+1)
                         +"-"+data.get(Calendar.DAY_OF_MONTH);
@@ -531,7 +579,8 @@ public class GerenciarExposicao extends javax.swing.JInternalFrame {
                     expo.setTipo("PERMANENTE");
                 }
                 expo = retornarObras(expo);
-                ger.registrarExposicao(expo);
+                expo.setSala(salaGer.consultarSala((int) cbSala.getSelectedItem()));
+                ger.registrarExposicao(expo);                
                 limparCampos();
                 JOptionPane.showMessageDialog(null, "Cadastrado com sucesso!", "Atenção", JOptionPane.INFORMATION_MESSAGE);
             } catch (SQLException | ClassNotFoundException | NullPointerException ex) {
@@ -620,7 +669,7 @@ public class GerenciarExposicao extends javax.swing.JInternalFrame {
                     expo.setTipo("PERMANENTE");
                 }
                 expo = this.retornarObras(expo);
-                
+                expo.setSala(salaGer.consultarSala((int) cbSala.getSelectedItem()));
                 ger.atualizarExposicao(expo, nomeAntigo);
                 limparCampos();
                 JOptionPane.showMessageDialog(null, "Alterado com sucesso!", "Atenção", JOptionPane.INFORMATION_MESSAGE);
@@ -646,6 +695,16 @@ public class GerenciarExposicao extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btExcluirExpoActionPerformed
 
+    private void cbSalaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbSalaActionPerformed
+        try {
+            // TODO add your handling code here:
+            Sala sala = salaGer.consultarSala((int) cbSala.getSelectedItem());
+            lbLotacao.setText("Lotação: "+sala.getQtdVisitantes());
+        } catch (SQLException | ClassNotFoundException | NullPointerException ex) {
+            Logger.getLogger(GerenciarExposicao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_cbSalaActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btAdicionarObra;
@@ -656,12 +715,14 @@ public class GerenciarExposicao extends javax.swing.JInternalFrame {
     private javax.swing.JButton btExcluirExpo;
     private javax.swing.JButton btLimpar;
     private javax.swing.JButton btRemoverObra;
+    private javax.swing.JComboBox<String> cbSala;
     private javax.swing.JCheckBox ckPermanente;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -674,6 +735,7 @@ public class GerenciarExposicao extends javax.swing.JInternalFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTable jTable1;
     private javax.swing.JLabel lbDataFim;
+    private javax.swing.JLabel lbLotacao;
     private javax.swing.JTable tbObras;
     private javax.swing.JTextField txtAutorObra;
     private javax.swing.JTextField txtBusca;

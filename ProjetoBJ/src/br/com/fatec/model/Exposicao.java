@@ -13,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -34,6 +35,8 @@ public class Exposicao implements Serializable {
     @OneToMany
     private Set<Obra> obras;
     private String tipo;
+    @OneToOne
+    private Sala sala;
 
     public Integer getCodigo() {
         return codigo;
@@ -81,5 +84,13 @@ public class Exposicao implements Serializable {
 
     public void setTipo(String tipo) {
         this.tipo = tipo;
+    }
+
+    public Sala getSala() {
+        return sala;
+    }
+
+    public void setSala(Sala sala) {
+        this.sala = sala;
     }
 }

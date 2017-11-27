@@ -1,12 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.com.fatec.controller;
 
 import br.com.fatec.model.Exposicao;
 import br.com.fatec.model.Obra;
+import br.com.fatec.model.Sala;
 import br.com.fatec.model.StatusObraEnum;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,7 +10,6 @@ import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -39,22 +34,29 @@ public class ExposicaoController {
     
     public void registrarExposicao(Exposicao exposicao) throws SQLException, ClassNotFoundException, NullPointerException{
         BancoConexao.salvar(exposicao);
+        atualizarObras(consultarExposicao(exposicao.getNome()), "ADD");
+        atualizarSala(exposicao, "RESERVADA");
     }
     
     public void atualizarExposicao(Exposicao exposicao, String busca) throws SQLException, ClassNotFoundException, NullPointerException{
-        Exposicao expo = this.consultarExposicao(busca);        
+        Exposicao expo = this.consultarExposicao(busca);
+        atualizarSala(expo, "LIVRE");//atualiza a antiga         
         expo.setNome(exposicao.getNome());
         expo.setDataInicio(exposicao.getDataInicio());
         expo.setDataFim(exposicao.getDataFim());
         expo.setTipo(exposicao.getTipo());
         expo.setObras(exposicao.getObras());
         atualizarObras(expo, "ADD");
+        expo.setSala(exposicao.getSala());
         BancoConexao.atualizar(expo);
+        atualizarSala(expo, "RESERVADA");
+
     }
     
     public void excluirExposicao(String nome)throws SQLException, ClassNotFoundException, NullPointerException{        
         Exposicao exposicao = this.consultarExposicao(nome);
         atualizarObras(exposicao, "REMOVER");
+        atualizarSala(exposicao, "LIVRE"); 
         BancoConexao.remover(exposicao, exposicao.getCodigo());
     }
     
@@ -71,8 +73,14 @@ public class ExposicaoController {
                 obr.setExposicao(expo);
                 obr.setStatus(StatusObraEnum.EXIBICAO);
             }
-            JOptionPane.showMessageDialog(null, "STATUS: " + obr.getStatus().toString());
             acervo.atualizarObra(obr);            
         }
+    }
+    
+    public void atualizarSala (Exposicao expo, String tipo) throws SQLException, ClassNotFoundException, NullPointerException{
+        SalaController salGer = new SalaController();
+        Sala sala = expo.getSala();        
+        sala.setStatus(tipo);  
+        salGer.atualizarSala(sala);   
     }
 }

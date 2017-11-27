@@ -34,7 +34,6 @@ create table Visitante (
         documentoEscolar varchar(255),
         primary key (idVisitante)
 );
-
     
 alter table Visita 
 add constraint FKn3qcf3gtrov3t9pk2g24qfheg 
@@ -48,6 +47,28 @@ create table usuario(
 		usuSenha varchar(30) not null,
 		usuTipo varchar(30) not null
 );
+
+create table sala(
+    numero int primary key auto_increment,
+    qtdVisitantes int,
+    status varchar(30)
+);
+
+insert into sala
+(qtdVisitantes, status) 
+values (50,'LIVRE');
+
+insert into sala
+(qtdVisitantes, status) 
+values (20,'LIVRE');
+
+insert into sala
+(qtdVisitantes, status) 
+values (90,'LIVRE');
+
+insert into usuario
+(usuNome, usuSenha, usuTipo) 
+values ('Bruno', '123', 'Admin');
 
 insert into Visitante
 (cpf, email, nome, telefone, documentoEscolar, DTYPE) 
