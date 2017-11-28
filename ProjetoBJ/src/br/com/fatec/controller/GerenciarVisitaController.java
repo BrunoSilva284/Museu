@@ -1,5 +1,6 @@
 package br.com.fatec.controller;
 
+import br.com.fatec.util.BancoConexao;
 import br.com.fatec.model.Estudante;
 import br.com.fatec.model.Visita;
 import br.com.fatec.model.Visitante;

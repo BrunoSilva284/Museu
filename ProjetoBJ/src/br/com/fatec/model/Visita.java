@@ -1,5 +1,6 @@
 package br.com.fatec.model;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,7 +15,7 @@ import javax.persistence.TemporalType;
  * @author aluno
  */
 @Entity
-public class Visita {
+public class Visita implements Serializable {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,7 +33,6 @@ public class Visita {
     
     @ManyToOne
     private Visitante visitante;
-    
     
     public Visitante getVisitante() {
         return visitante;
@@ -84,7 +84,5 @@ public class Visita {
 
     public void setValorEntrada(double novoValor) {
         this.valorEntrada = novoValor;
-    }
-    
-    
+    }    
 }

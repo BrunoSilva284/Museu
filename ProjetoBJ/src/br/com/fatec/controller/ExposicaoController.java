@@ -1,9 +1,10 @@
 package br.com.fatec.controller;
 
+import br.com.fatec.util.BancoConexao;
 import br.com.fatec.model.Exposicao;
 import br.com.fatec.model.Obra;
 import br.com.fatec.model.Sala;
-import br.com.fatec.model.StatusObraEnum;
+import br.com.fatec.enums.StatusObraEnum;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -28,6 +29,7 @@ public class ExposicaoController {
             rs.close();
             return exposicao;                        
         }
+        rs.close();
         BancoConexao.desconectar();
         return null;
     }

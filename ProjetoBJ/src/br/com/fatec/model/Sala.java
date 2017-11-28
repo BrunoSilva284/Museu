@@ -1,10 +1,10 @@
 package br.com.fatec.model;
 
+import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
 
 /**
  *
@@ -12,7 +12,7 @@ import javax.persistence.Id;
  */
 
 @Entity
-public class Sala {
+public class Sala implements Serializable {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,5 +45,4 @@ public class Sala {
     public void setStatus(String status) {
         this.status = status;
     }
-    
 }

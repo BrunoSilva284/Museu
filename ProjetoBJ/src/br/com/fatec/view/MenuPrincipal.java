@@ -154,9 +154,14 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
     private void GerenciarRestauracaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GerenciarRestauracaoActionPerformed
         // TODO add your handling code here:
-        GerenciarRestauracao restauracao = new GerenciarRestauracao();
-        painelPrincipal.add(restauracao);
-        restauracao.setVisible(true);
+        GerenciarRestauracao restauracao;
+        try {
+            restauracao = new GerenciarRestauracao();
+            painelPrincipal.add(restauracao);
+            restauracao.setVisible(true);
+        } catch (SQLException | ClassNotFoundException | NullPointerException ex) {
+            Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_GerenciarRestauracaoActionPerformed
 
     /**

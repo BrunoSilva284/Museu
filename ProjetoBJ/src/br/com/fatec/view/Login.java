@@ -5,7 +5,7 @@
  */
 package br.com.fatec.view;
 
-import br.com.fatec.controller.BancoConexao;
+import br.com.fatec.util.BancoConexao;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;

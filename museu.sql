@@ -54,6 +54,29 @@ create table sala(
     status varchar(30)
 );
 
+ create table Restaurador (
+       cracha integer not null auto_increment,
+        nome varchar(255),
+        restauracao_codigo integer,
+        primary key (cracha)
+    );
+    
+alter table Restauracao 
+       add constraint FK3nhj8312rmts5ngwp5qlf0q2l 
+       foreign key (obra_codigo) 
+       references Obra (codigo);
+    
+alter table Restauracao 
+       add constraint FKcg53wlarann1xutliqf98c1yc 
+       foreign key (restaurador_cracha) 
+       references Restaurador (cracha);
+    
+alter table Restaurador 
+       add constraint FK601wrl8jtjh208opm0nudutbe 
+       foreign key (restauracao_codigo) 
+       references Restauracao (codigo);
+
+
 insert into sala
 (qtdVisitantes, status) 
 values (50,'LIVRE');
@@ -65,6 +88,8 @@ values (20,'LIVRE');
 insert into sala
 (qtdVisitantes, status) 
 values (90,'LIVRE');
+
+insert into 
 
 insert into usuario
 (usuNome, usuSenha, usuTipo) 

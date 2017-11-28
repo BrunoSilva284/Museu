@@ -1,10 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.com.fatec.model;
 
+import br.com.fatec.enums.StatusObraEnum;
+import br.com.fatec.enums.TipoObraEnum;
+import java.io.Serializable;
 import java.util.Calendar;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -21,7 +19,7 @@ import javax.persistence.TemporalType;
  * @author aluno
  */
 @Entity
-public class Obra {
+public class Obra implements Serializable {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer codigo;
@@ -117,6 +115,5 @@ public class Obra {
 
     public void setExposicao(Exposicao exposicao) {
         this.exposicao = exposicao;
-    }
-    
+    }    
 }

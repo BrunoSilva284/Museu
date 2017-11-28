@@ -1,12 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.com.fatec.view;
 
 import br.com.fatec.controller.GerenciarVisitaController;
-import br.com.fatec.controller.Mascaras;
+import br.com.fatec.util.Mascaras;
 import br.com.fatec.model.Visitante;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -61,6 +56,7 @@ public class CadastroVisitante extends javax.swing.JInternalFrame {
 
         setClosable(true);
         setTitle("Cadastro de Visitante");
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/fatec/images/Visitante.png"))); // NOI18N
 
         txtBusca.setFormatterFactory(Mascaras.cpf());
 

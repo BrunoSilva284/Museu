@@ -1,5 +1,7 @@
 package br.com.fatec.model;
 
+import br.com.fatec.enums.StatusRestauracao;
+import java.io.Serializable;
 import java.util.Calendar;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -16,7 +18,7 @@ import javax.persistence.TemporalType;
  * @author bruno.a.da.silva
  */
 @Entity
-public class Restauracao {
+public class Restauracao implements Serializable {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int codigo;    
@@ -87,6 +89,4 @@ public class Restauracao {
     public void setObra(Obra obra) {
         this.obra = obra;
     }
-    
-
 }

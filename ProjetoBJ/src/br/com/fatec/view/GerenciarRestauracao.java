@@ -1,13 +1,21 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.com.fatec.view;
 
+import br.com.fatec.controller.AcervoController;
+import br.com.fatec.controller.RestauracaoController;
+import br.com.fatec.enums.StatusRestauracao;
+import br.com.fatec.model.Obra;
 import br.com.fatec.model.Restauracao;
+import br.com.fatec.model.Restaurador;
+import br.com.fatec.util.Mascaras;
+import java.awt.Image;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
-import jdk.nashorn.internal.scripts.JO;
 
 /**
  *
@@ -18,11 +26,15 @@ public class GerenciarRestauracao extends javax.swing.JInternalFrame {
     /**
      * Creates new form GerenciarRestauracao
      */
+    private String imagemCaminho;
     private final RestauracaoController ger = new RestauracaoController();
+    private final AcervoController gerAcervo = new AcervoController();
     
-    public GerenciarRestauracao() {
+    public GerenciarRestauracao() throws SQLException, ClassNotFoundException, NullPointerException {
         initComponents();
         limparCampos();
+        DefaultComboBoxModel model = new DefaultComboBoxModel(StatusRestauracao.values());
+        lbStatus.setModel(model);
     }
 
     /**
@@ -39,18 +51,13 @@ public class GerenciarRestauracao extends javax.swing.JInternalFrame {
         txtBuscaObra = new javax.swing.JTextField();
         btBuscarObra = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        txtNomeObra = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         txtAutorObra = new javax.swing.JTextField();
-        txtValor = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         lbImagem = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        lbStatus = new javax.swing.JLabel();
-        btBuscaRestaurador = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
-        txtBuscaRestaurador = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         txtDataInicio = new javax.swing.JFormattedTextField();
         jLabel8 = new javax.swing.JLabel();
@@ -59,19 +66,31 @@ public class GerenciarRestauracao extends javax.swing.JInternalFrame {
         btCadastrar = new javax.swing.JButton();
         btAtualizar = new javax.swing.JButton();
         btExcluir = new javax.swing.JButton();
+        cbRestaurador = new javax.swing.JComboBox<>();
+        cbObra = new javax.swing.JComboBox<>();
+        lbStatus = new javax.swing.JComboBox<>();
+        txtValor = new javax.swing.JFormattedTextField();
 
         setClosable(true);
         setTitle("Gerenciar Restauração");
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/fatec/images/Restauracao.png"))); // NOI18N
 
         jPanel1.setBackground(new java.awt.Color(204, 204, 204));
 
         jLabel1.setText("Buscar Obra:");
 
         btBuscarObra.setText("Buscar");
+        btBuscarObra.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btBuscarObraActionPerformed(evt);
+            }
+        });
 
-        jLabel2.setText("Nome Obra:");
+        jLabel2.setText("Obra:");
 
         jLabel3.setText("Autor:");
+
+        txtAutorObra.setEditable(false);
 
         jLabel4.setText("Valor da restauração: R$");
 
@@ -94,15 +113,15 @@ public class GerenciarRestauracao extends javax.swing.JInternalFrame {
 
         jLabel5.setText("Status Restauração:");
 
-        lbStatus.setText("Não Criada");
-
-        btBuscaRestaurador.setText("Buscar");
-
         jLabel6.setText("Restaurador:");
 
         jLabel7.setText("Data Inicío:");
 
+        txtDataInicio.setFormatterFactory(Mascaras.data());
+
         jLabel8.setText("Data Encerramento:");
+
+        txtDataFim.setFormatterFactory(Mascaras.data());
 
         btLimpar.setText("Limpar");
         btLimpar.addActionListener(new java.awt.event.ActionListener() {
@@ -119,70 +138,87 @@ public class GerenciarRestauracao extends javax.swing.JInternalFrame {
         });
 
         btAtualizar.setText("Atualizar");
+        btAtualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btAtualizarActionPerformed(evt);
+            }
+        });
 
         btExcluir.setText("Excluir");
+        btExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btExcluirActionPerformed(evt);
+            }
+        });
+
+        cbRestaurador.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        cbObra.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbObra.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbObraActionPerformed(evt);
+            }
+        });
+
+        lbStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        txtValor.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter()));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(214, 214, 214)
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addComponent(txtBuscaObra, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btBuscarObra)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(42, 42, 42)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel5)
+                        .addComponent(btLimpar)
                         .addGap(18, 18, 18)
-                        .addComponent(lbStatus))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel3))
-                                .addGap(33, 33, 33)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(txtAutorObra, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtNomeObra, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(btLimpar)
-                                .addGap(18, 18, 18)
-                                .addComponent(btCadastrar)
-                                .addGap(33, 33, 33)
-                                .addComponent(btAtualizar)))
+                        .addComponent(btCadastrar)
+                        .addGap(33, 33, 33)
+                        .addComponent(btAtualizar)
                         .addGap(38, 38, 38)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(btExcluir)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel7)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txtDataInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel8)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                                .addComponent(txtDataFim, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel6)
+                                .addComponent(jLabel6)
+                                .addGap(18, 18, 18)
+                                .addComponent(cbRestaurador, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtValor))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel1)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel5)
                                         .addGap(18, 18, 18)
-                                        .addComponent(txtBuscaRestaurador, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(lbStatus, 0, 81, Short.MAX_VALUE))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel4)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(txtValor)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btBuscaRestaurador))
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addComponent(jLabel7)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(txtDataInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addComponent(jLabel8)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(txtDataFim, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addGap(0, 61, Short.MAX_VALUE))
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel2)
+                                            .addComponent(jLabel3))
+                                        .addGap(33, 33, 33)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(txtAutorObra, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
+                                            .addComponent(cbObra, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
+                        .addGap(18, 18, 18)
+                        .addComponent(txtBuscaObra, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btBuscarObra)))
+                .addGap(0, 132, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -192,40 +228,35 @@ public class GerenciarRestauracao extends javax.swing.JInternalFrame {
                     .addComponent(jLabel1)
                     .addComponent(txtBuscaObra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btBuscarObra))
-                .addGap(35, 35, 35)
+                .addGap(32, 32, 32)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(lbStatus))
+                    .addComponent(lbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(txtNomeObra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6)
-                            .addComponent(txtBuscaRestaurador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btBuscaRestaurador))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(txtAutorObra, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel6)
+                    .addComponent(cbRestaurador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbObra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtAutorObra, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel4)
                         .addComponent(txtValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(16, 16, 16)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(33, 33, 33)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel7)
                             .addComponent(txtDataInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel8)
-                            .addComponent(txtDataFim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
+                            .addComponent(txtDataFim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btLimpar)
                     .addComponent(btCadastrar)
@@ -244,51 +275,210 @@ public class GerenciarRestauracao extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 91, Short.MAX_VALUE))
+                .addGap(0, 18, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void limparCampos(){
+    
+    private void popularCombo() throws SQLException, ClassNotFoundException, NullPointerException {
+        ArrayList<Obra> obras = (ArrayList) gerAcervo.listarObras("where codigo not in (select obra_codigo from restauracao)");       
+        ArrayList<String> nome= new ArrayList<>();
+        for(Obra obra : obras){
+            nome.add(obra.getNome());
+        }
+        Object[] array = nome.toArray();
+        DefaultComboBoxModel model = new DefaultComboBoxModel(array);
+        cbObra.setModel(model);
+        txtAutorObra.setText(obras.get(0).getAutor());
+        ArrayList<Restaurador> restauradores = (ArrayList) ger.listarRestaurador("where cracha not in (select restaurador_cracha from restauracao)");
+        nome = new ArrayList<>();
+        for(Restaurador restaurador : restauradores){
+            nome.add(restaurador.getNome());
+        }
+        array = nome.toArray();
+        model = new DefaultComboBoxModel(array);
+        cbRestaurador.setModel(model);
+    }
+    
+    private void limparCampos() throws SQLException, ClassNotFoundException, NullPointerException {
         txtAutorObra.setText("");
         txtBuscaObra.setText("");
-        txtBuscaRestaurador.setText("");
+        cbRestaurador.setSelectedIndex(0);
+        
         txtDataFim.setText("");
         txtDataInicio.setText("");
-        txtNomeObra.setText("");
         txtValor.setText("");
         
         btAtualizar.setEnabled(false);
         btExcluir.setEnabled(false);
         
-        lbStatus.setText("Não soliicitado");
+        lbStatus.setSelectedIndex(0);
+        btCadastrar.setEnabled(true);
+        cbObra.setEnabled(true);
+        popularCombo();
     }
     
     private void btLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLimparActionPerformed
-        // TODO add your handling code here:
-        limparCampos();
+        try {
+            // TODO add your handling code here:
+            limparCampos();
+        } catch (SQLException | ClassNotFoundException | NullPointerException ex) {
+            Logger.getLogger(GerenciarRestauracao.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btLimparActionPerformed
 
     private void btCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCadastrarActionPerformed
         // TODO add your handling code here:
-        if(txtNomeObra.getText().equals("") || txtValor.getText().equals("") | txtBuscaRestaurador.getText().equals("")){
+        if(cbObra.getSelectedItem().equals("") || txtValor.getText().equals("")){
             JOptionPane.showMessageDialog(null, "Preenhca os campos", "Aviso", JOptionPane.INFORMATION_MESSAGE);
         }
         else{
-            Restauracao restauracao = new Restauracao();
-            //restauracao.setRestaurador("");
+            try {
+                ger.registrarRestauracao(cbRestaurador.getSelectedItem().toString(),
+                        gerAcervo.consultarObra(cbObra.getSelectedItem().toString()),
+                        txtValor.getText(), txtDataInicio.getText(),
+                        txtDataFim.getText());
+                JOptionPane.showMessageDialog(null, "Cadastrado com sucesso!", "Atenção", JOptionPane.INFORMATION_MESSAGE);
+                limparCampos();
+            } catch (SQLException | ClassNotFoundException | NullPointerException ex) {
+                Logger.getLogger(GerenciarRestauracao.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_btCadastrarActionPerformed
 
+    private void cbObraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbObraActionPerformed
+        try {
+            // TODO add your handling code here:
+            Obra obra = gerAcervo.consultarObra(cbObra.getSelectedItem().toString());
+            txtAutorObra.setText(obra.getAutor());
+            lbImagem.setIcon(ResizeImage(obra.getCaminhoImg()));
+            imagemCaminho = obra.getCaminhoImg();
+        } catch (SQLException | ClassNotFoundException | NullPointerException ex) {
+            Logger.getLogger(GerenciarRestauracao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_cbObraActionPerformed
+
+    private void btBuscarObraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btBuscarObraActionPerformed
+        // TODO add your handling code here:
+        if(txtBuscaObra.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "Preencha o campo de busca!", "Atenção", JOptionPane.INFORMATION_MESSAGE);
+        }else{
+            try {
+                Restauracao restauracao = ger.consultarRestauracao(txtBuscaObra.getText());
+                txtAutorObra.setText(restauracao.getObra().getAutor());
+                lbImagem.setIcon(ResizeImage(restauracao.getObra().getCaminhoImg()));
+                imagemCaminho = restauracao.getObra().getCaminhoImg();
+                lbStatus.setSelectedItem(restauracao.getStatus());
+                cbObra.setSelectedItem(restauracao.getObra().getNome());
+                cbRestaurador.setSelectedItem(restauracao.getRestaurador().getNome());
+                txtValor.setText(String.valueOf(restauracao.getValor()));
+                
+                if(restauracao.getDataInicio() != null){
+                    Calendar data =restauracao.getDataInicio();
+                    txtDataInicio.setText(formataData(data));                
+                    if(restauracao.getDataFim() != null){
+                        data = restauracao.getDataFim();                
+                        txtDataFim.setText(formataData(data));
+                    }
+                    else{
+                        txtDataFim.setText("");
+                    }
+                }
+                else{
+                    txtDataInicio.setText("");
+                }
+                ArrayList<Obra> obras = (ArrayList) gerAcervo.listarObras("where codigo ="+restauracao.getObra().getCodigo());       
+                ArrayList<String> nome= new ArrayList<>();
+                for(Obra obra : obras){
+                    nome.add(obra.getNome());
+                }
+                Object[] array = nome.toArray();
+                DefaultComboBoxModel model = new DefaultComboBoxModel(array);
+                cbObra.setModel(model);
+                ArrayList<Restaurador> restauradores = (ArrayList) ger.listarRestaurador("where cracha not in "
+                        + "(select restaurador_cracha from restauracao where codigo !="+restauracao.getCodigo()+")");
+                 nome = new ArrayList<>();
+                for(Restaurador restaurador : restauradores){
+                    nome.add(restaurador.getNome());
+                }
+                array = nome.toArray();
+                model = new DefaultComboBoxModel(array);
+                cbRestaurador.setModel(model);
+                
+                btCadastrar.setEnabled(false);
+                btAtualizar.setEnabled(true);
+                btExcluir.setEnabled(true);
+                cbObra.setEnabled(false);
+            } catch (SQLException | ClassNotFoundException ex) {
+                Logger.getLogger(GerenciarRestauracao.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (NullPointerException ex) {
+                JOptionPane.showMessageDialog(this, "Restauração não encontrada!", "Alerta", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_btBuscarObraActionPerformed
+
+    private void btExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btExcluirActionPerformed
+        // TODO add your handling code here:
+        int opc = JOptionPane.showConfirmDialog(this, "Deseja realmente excluir esse registro?", "Atenção", JOptionPane.INFORMATION_MESSAGE);
+        if(opc==JOptionPane.YES_OPTION){
+            try {
+                ger.excluirRestauracao(cbObra.getSelectedItem().toString());
+                JOptionPane.showMessageDialog(this, "Removido com sucesso!", "Atenção", JOptionPane.INFORMATION_MESSAGE);
+                limparCampos();
+            }catch(NullPointerException ex){
+                Logger.getLogger(CadastroAcervo.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(this, "Restauração não encontrada!", "Alerta", JOptionPane.INFORMATION_MESSAGE);
+            } catch (SQLException | ClassNotFoundException ex) {
+                Logger.getLogger(CadastroAcervo.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_btExcluirActionPerformed
+
+    private void btAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAtualizarActionPerformed
+        // TODO add your handling code here:
+        // TODO add your handling code here:
+        if(cbObra.getSelectedItem().equals("") || txtValor.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "Preenhca os campos", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+        }
+        else{
+            try {
+                ger.alterarRestauracao(cbRestaurador.getSelectedItem().toString(),
+                        gerAcervo.consultarObra(cbObra.getSelectedItem().toString()),
+                        txtValor.getText(), txtDataInicio.getText(),
+                        txtDataFim.getText(),
+                        (StatusRestauracao) lbStatus.getSelectedItem());
+                JOptionPane.showMessageDialog(null, "Atualizado com sucesso!", "Atenção", JOptionPane.INFORMATION_MESSAGE);
+                limparCampos();
+            } catch (SQLException | ClassNotFoundException | NullPointerException ex) {
+                Logger.getLogger(GerenciarRestauracao.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_btAtualizarActionPerformed
+    
+    private String formataData(Calendar data){
+        String formatada =""+data.get(Calendar.YEAR)
+                        +"-"+(data.get(Calendar.MONTH)+1)
+                        +"-"+data.get(Calendar.DAY_OF_MONTH);
+        return formatada;
+    }
+    public ImageIcon ResizeImage(String ImagePath)
+    {
+        ImageIcon MyImage = new ImageIcon(ImagePath);
+        Image img = MyImage.getImage();
+        Image newImg = img.getScaledInstance(lbImagem.getWidth(), lbImagem.getHeight(), Image.SCALE_SMOOTH);
+        ImageIcon imagem = new ImageIcon(newImg);
+        return imagem;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btAtualizar;
-    private javax.swing.JButton btBuscaRestaurador;
     private javax.swing.JButton btBuscarObra;
     private javax.swing.JButton btCadastrar;
     private javax.swing.JButton btExcluir;
     private javax.swing.JButton btLimpar;
+    private javax.swing.JComboBox<String> cbObra;
+    private javax.swing.JComboBox<String> cbRestaurador;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -300,13 +490,11 @@ public class GerenciarRestauracao extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel lbImagem;
-    private javax.swing.JLabel lbStatus;
+    private javax.swing.JComboBox<String> lbStatus;
     private javax.swing.JTextField txtAutorObra;
     private javax.swing.JTextField txtBuscaObra;
-    private javax.swing.JTextField txtBuscaRestaurador;
     private javax.swing.JFormattedTextField txtDataFim;
     private javax.swing.JFormattedTextField txtDataInicio;
-    private javax.swing.JTextField txtNomeObra;
-    private javax.swing.JTextField txtValor;
+    private javax.swing.JFormattedTextField txtValor;
     // End of variables declaration//GEN-END:variables
 }

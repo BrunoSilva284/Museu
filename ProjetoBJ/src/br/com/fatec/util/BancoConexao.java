@@ -1,11 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package br.com.fatec.controller;
+package br.com.fatec.util;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -14,21 +11,15 @@ import javax.persistence.Query;
  
 /**
  *
- * @author sqlitetutorial.net
+ * @author aluno
  */
 public class BancoConexao {
-     /**
-     * Connect to a sample database
-     * @param e
-     */
-   //criar variaveis
     private static final String usuario = "root";
     private static final String senha = "root";
     private static final String servidor = "localhost";
     private static final String bd = "museu";
     private static final int porta = 3306;
-    
-    //variavel de conexao
+
     private static Connection conexao = null;
     
     public static void salvar(Object e){
@@ -113,7 +104,4 @@ public class BancoConexao {
     public static Connection getConexao() {
         return conexao;
     }
-    
-    
-    
 }

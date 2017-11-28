@@ -1,14 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.com.fatec.view;
 
 import br.com.fatec.controller.AcervoController;
-import br.com.fatec.controller.Mascaras;
+import br.com.fatec.util.Mascaras;
 import br.com.fatec.model.Obra;
-import br.com.fatec.model.TipoObraEnum;
+import br.com.fatec.enums.TipoObraEnum;
 import java.awt.Image;
 import java.io.File;
 import java.sql.Date;
@@ -92,6 +87,7 @@ public class CadastroAcervo extends javax.swing.JInternalFrame {
 
         setClosable(true);
         setTitle("Cadastro Acervo");
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/fatec/images/Obra.png"))); // NOI18N
 
         jLabel1.setText("Nome Obra:");
 
@@ -227,10 +223,10 @@ public class CadastroAcervo extends javax.swing.JInternalFrame {
                         .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(34, 34, 34))))
             .addGroup(layout.createSequentialGroup()
+                .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(btExcluir)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(30, 30, 30)
                         .addComponent(jLabel7)
                         .addGap(18, 18, 18)
                         .addComponent(txtBusca, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -430,7 +426,7 @@ public class CadastroAcervo extends javax.swing.JInternalFrame {
             }
         }
     }//GEN-LAST:event_btExcluirActionPerformed
-     // Methode to resize imageIcon with the same size of a Jlabel
+
     public ImageIcon ResizeImage(String ImagePath)
     {
         ImageIcon MyImage = new ImageIcon(ImagePath);

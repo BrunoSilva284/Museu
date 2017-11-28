@@ -1,18 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.com.fatec.view;
 
-import br.com.fatec.controller.BancoConexao;
+import br.com.fatec.util.BancoConexao;
 import br.com.fatec.controller.GerenciarVisitaController;
-import br.com.fatec.controller.Mascaras;
+import br.com.fatec.util.Mascaras;
 import br.com.fatec.model.Visitante;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;

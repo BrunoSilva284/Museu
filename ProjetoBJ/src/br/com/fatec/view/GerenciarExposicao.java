@@ -1,18 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.com.fatec.view;
 
 import br.com.fatec.controller.AcervoController;
 import br.com.fatec.controller.ExposicaoController;
-import br.com.fatec.controller.Mascaras;
+import br.com.fatec.util.Mascaras;
 import br.com.fatec.controller.SalaController;
 import br.com.fatec.model.Exposicao;
 import br.com.fatec.model.Obra;
 import br.com.fatec.model.Sala;
-import br.com.fatec.model.StatusObraEnum;
+import br.com.fatec.enums.StatusObraEnum;
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.sql.Date;
@@ -20,7 +15,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
-import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
@@ -43,11 +37,16 @@ public class GerenciarExposicao extends javax.swing.JInternalFrame {
      * @throws java.sql.SQLException
      * @throws java.lang.ClassNotFoundException
      */
-    public GerenciarExposicao() throws SQLException, ClassNotFoundException {
+    public GerenciarExposicao() throws SQLException, ClassNotFoundException, NullPointerException {
         initComponents();
         txtAutorObra.setEditable(false);
         txtNomeObra.setEditable(false);
         txtTipoObra.setEditable(false);
+        popularCombo();
+        limparCampos();
+    }
+    
+    private void popularCombo() throws SQLException, ClassNotFoundException, NullPointerException{
         ArrayList<Sala> salas = (ArrayList) salaGer.listarSalas();
         ArrayList<Integer> numeros= new ArrayList<>();
         for(Sala sala : salas){
@@ -56,7 +55,6 @@ public class GerenciarExposicao extends javax.swing.JInternalFrame {
         Object[] array = numeros.toArray();
         DefaultComboBoxModel model = new DefaultComboBoxModel(array);
         cbSala.setModel(model);
-        limparCampos();
     }
     
     private void limparCampos(){
@@ -153,6 +151,7 @@ public class GerenciarExposicao extends javax.swing.JInternalFrame {
         setClosable(true);
         setTitle("Gerenciar Exposição");
         setToolTipText("");
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/fatec/images/Exposicao.png"))); // NOI18N
 
         jLabel1.setText("Buscar por nome:");
 
@@ -200,7 +199,6 @@ public class GerenciarExposicao extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        tbObras.setColumnSelectionAllowed(false);
         tbObras.setEnabled(false);
         tbObras.setFocusable(false);
         jScrollPane2.setViewportView(tbObras);
@@ -420,7 +418,6 @@ public class GerenciarExposicao extends javax.swing.JInternalFrame {
                                 .addComponent(txtDataInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(ckPermanente))
                         .addGap(3, 3, 3)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel6)

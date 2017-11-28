@@ -1,5 +1,6 @@
 package br.com.fatec.controller;
 
+import br.com.fatec.util.BancoConexao;
 import br.com.fatec.model.Sala;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
