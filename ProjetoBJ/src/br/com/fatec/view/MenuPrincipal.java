@@ -5,6 +5,11 @@
  */
 package br.com.fatec.view;
 
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author aluno
@@ -35,6 +40,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         menuGerenciar = new javax.swing.JMenu();
         GerenciarVisita = new javax.swing.JMenuItem();
         GerenciarExposicao = new javax.swing.JMenuItem();
+        GerenciarRestauracao = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Menu Principal - Museu");
@@ -96,6 +102,14 @@ public class MenuPrincipal extends javax.swing.JFrame {
         });
         menuGerenciar.add(GerenciarExposicao);
 
+        GerenciarRestauracao.setText("Restauração");
+        GerenciarRestauracao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                GerenciarRestauracaoActionPerformed(evt);
+            }
+        });
+        menuGerenciar.add(GerenciarRestauracao);
+
         jMenuBar1.add(menuGerenciar);
 
         setJMenuBar(jMenuBar1);
@@ -126,10 +140,24 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
     private void GerenciarExposicaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GerenciarExposicaoActionPerformed
         // TODO add your handling code here:]
-        GerenciarExposicao exposicao = new GerenciarExposicao();
-        painelPrincipal.add(exposicao);
-        exposicao.setVisible(true);
+        GerenciarExposicao exposicao;
+        try {
+            exposicao = new GerenciarExposicao();
+            painelPrincipal.add(exposicao);
+            exposicao.setVisible(true);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_GerenciarExposicaoActionPerformed
+
+    private void GerenciarRestauracaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GerenciarRestauracaoActionPerformed
+        // TODO add your handling code here:
+        GerenciarRestauracao restauracao = new GerenciarRestauracao();
+        painelPrincipal.add(restauracao);
+        restauracao.setVisible(true);
+    }//GEN-LAST:event_GerenciarRestauracaoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -170,6 +198,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem CadastroAcervo;
     private javax.swing.JMenuItem CadastroVisitante;
     private javax.swing.JMenuItem GerenciarExposicao;
+    private javax.swing.JMenuItem GerenciarRestauracao;
     private javax.swing.JMenuItem GerenciarVisita;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenu menuCadastro;
