@@ -13,6 +13,7 @@ public abstract class Exposicao_ {
 	public static volatile SingularAttribute<Exposicao, Integer> codigo;
 	public static volatile SingularAttribute<Exposicao, String> tipo;
 	public static volatile SingularAttribute<Exposicao, Calendar> dataFim;
+	public static volatile SingularAttribute<Exposicao, Sala> sala;
 	public static volatile SingularAttribute<Exposicao, String> nome;
 	public static volatile SingularAttribute<Exposicao, Calendar> dataInicio;
 	public static volatile SetAttribute<Exposicao, Obra> obras;

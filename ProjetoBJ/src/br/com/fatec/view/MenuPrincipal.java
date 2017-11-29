@@ -5,9 +5,11 @@
  */
 package br.com.fatec.view;
 
+import java.awt.Image;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 /**
@@ -47,7 +49,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Menu Principal - Museu");
-        setMaximumSize(new java.awt.Dimension(800, 600));
+        setIconImage(new javax.swing.ImageIcon(getClass().getResource("/br/com/fatec/images/museum-icon.png")).getImage());
         setName("Menu Principal - Museu"); // NOI18N
         getContentPane().setLayout(null);
 
@@ -159,6 +161,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         CadastroAcervo acervo = new CadastroAcervo();
         painelPrincipal.add(acervo);
         acervo.setVisible(true);
+        acervo.iniciar();
     }//GEN-LAST:event_CadastroAcervoActionPerformed
 
     private void GerenciarExposicaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GerenciarExposicaoActionPerformed
@@ -182,6 +185,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
             restauracao = new GerenciarRestauracao();
             painelPrincipal.add(restauracao);
             restauracao.setVisible(true);
+            restauracao.iniciar();
         } catch (SQLException | ClassNotFoundException | NullPointerException ex) {
             Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }

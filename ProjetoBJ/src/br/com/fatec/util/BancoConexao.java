@@ -89,7 +89,7 @@ public class BancoConexao {
               String url = "jdbc:mysql://" +
                 servidor + 
                 ":" + porta +
-                "/" + bd ;
+                "/" + bd +"?autoReconnect=true&useSSL=false";
         
         //carrega o driver do banco
         Class.forName("com.mysql.jdbc.Driver");

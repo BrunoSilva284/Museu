@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -36,7 +37,7 @@ public class ExposicaoController {
     
     public void registrarExposicao(Exposicao exposicao) throws SQLException, ClassNotFoundException, NullPointerException{
         BancoConexao.salvar(exposicao);
-        atualizarObras(consultarExposicao(exposicao.getNome()), "ADD");
+        atualizarObras(exposicao, "ADD");
         atualizarSala(exposicao, "RESERVADA");
     }
     
@@ -66,8 +67,9 @@ public class ExposicaoController {
         AcervoController acervo = new AcervoController();
         Set<Obra> obras = expo.getObras();
         Iterator<Obra> it = obras.iterator();
-        while(it.hasNext()){
+        while(it.hasNext()){            
             Obra obr = acervo.consultarObra(it.next().getNome());
+            JOptionPane.showMessageDialog(null, "TEM OBRA: " + obr.getNome());
             if(tipo.equals("REMOVER")){
                 obr.setExposicao(null);
                 obr.setStatus(StatusObraEnum.GUARDADA);

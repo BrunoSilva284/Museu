@@ -43,8 +43,9 @@ public class StatusObras extends javax.swing.JInternalFrame {
     public void carregarStatusObras(){        
         try {
             DefaultTableModel model = new DefaultTableModel(new String[] {"Nome Obra", "Autor", "Tipo de Obra", "Status", "Exposição"},0);
+            tbObras.setModel(model);
             List<Obra> obras = acervo.listarObras("");            
-            Iterator<Obra> obrIt = obras.iterator();
+            Iterator<Obra> obrIt = obras.iterator();            
             while(obrIt.hasNext()){
                 Obra obra = obrIt.next();
                 if(obra.getExposicao() == null){
@@ -55,11 +56,7 @@ public class StatusObras extends javax.swing.JInternalFrame {
                 tbObras.setModel(model);
                 tbObras.setEnabled(false);
             }
-        } catch (SQLException ex) {
-            Logger.getLogger(StatusObras.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(StatusObras.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NullPointerException ex) {
+        } catch (SQLException | ClassNotFoundException | NullPointerException ex) {
             Logger.getLogger(StatusObras.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -69,6 +66,7 @@ public class StatusObras extends javax.swing.JInternalFrame {
             Calendar data;
             String inicio, fim;
             DefaultTableModel model = new DefaultTableModel(new String[] {"Nome Obra", "Autor", "Tipo de Obra", "Status Restauração", "Restaurador", "Início", "Fim"},0);
+            tbObras.setModel(model);
             List<Restauracao> restauracoes = restauracao.listarRestauracao("");            
             Iterator<Restauracao> restIt = restauracoes.iterator();
             while(restIt.hasNext()){
@@ -89,11 +87,7 @@ public class StatusObras extends javax.swing.JInternalFrame {
                 tbObras.setModel(model);
                 tbObras.setEnabled(false);
             }
-        } catch (SQLException ex) {
-            Logger.getLogger(StatusObras.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(StatusObras.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NullPointerException ex) {
+        } catch (SQLException | ClassNotFoundException | NullPointerException ex) {
             Logger.getLogger(StatusObras.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

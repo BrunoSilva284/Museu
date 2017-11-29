@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import javax.swing.JOptionPane;
 /**
  *
  * @author aluno
@@ -186,5 +187,27 @@ public class GerenciarVisitaController {
         rs.close();
         BancoConexao.desconectar();
         return idCartao+1;
+    }
+    
+    public boolean iniciouVisita(String cpf) throws ClassNotFoundException, SQLException, NullPointerException{
+        boolean retorno = false;
+        BancoConexao.conectar();
+        PreparedStatement stm = BancoConexao.getConexao()
+                .prepareStatement("select codigo,dataHoraEntrada, dataHoraSaida from visita "
+                        + "where visitante_idVisitante = "
+                        + "(select max(idVisitante) from visitante "
+                        + "where cpf = '" + cpf + "') order by codigo desc");
+        ResultSet rs = stm.executeQuery();                
+        if (rs.next()) { 
+            if(rs.getString("dataHoraSaida")==null){
+                retorno = true;
+            }
+        }
+        else{
+            retorno = false;
+        }
+        rs.close();
+        BancoConexao.desconectar();
+        return retorno;
     }
 }

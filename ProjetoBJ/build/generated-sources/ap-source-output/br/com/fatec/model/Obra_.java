@@ -1,5 +1,7 @@
 package br.com.fatec.model;
 
+import br.com.fatec.enums.StatusObraEnum;
+import br.com.fatec.enums.TipoObraEnum;
 import java.util.Calendar;
 import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;

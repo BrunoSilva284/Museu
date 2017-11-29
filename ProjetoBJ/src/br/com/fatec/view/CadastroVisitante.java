@@ -54,12 +54,15 @@ public class CadastroVisitante extends javax.swing.JInternalFrame {
         btAlterar = new javax.swing.JButton();
         btExcluir = new javax.swing.JButton();
 
+        setBackground(new java.awt.Color(227, 232, 254));
         setClosable(true);
+        setForeground(java.awt.Color.blue);
         setTitle("Cadastro de Visitante");
         setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/fatec/images/Visitante.png"))); // NOI18N
 
         txtBusca.setFormatterFactory(Mascaras.cpf());
 
+        jLabel1.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
         jLabel1.setText("Buscar por CPF:");
 
         btBuscar.setText("Buscar");
@@ -69,14 +72,19 @@ public class CadastroVisitante extends javax.swing.JInternalFrame {
             }
         });
 
-        jPanel2.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel2.setBackground(new java.awt.Color(229, 231, 234));
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Dados cadastrais"));
         jPanel2.setToolTipText("");
+        jPanel2.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
 
+        jLabel2.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
         jLabel2.setText("Nome:");
 
+        jLabel3.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
         jLabel3.setText("CPF:");
 
+        ckEstudante.setBackground(new java.awt.Color(227, 232, 254));
+        ckEstudante.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
         ckEstudante.setText("Estudante");
         ckEstudante.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
@@ -84,10 +92,13 @@ public class CadastroVisitante extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel4.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
         jLabel4.setText("E-mail");
 
+        jLabel5.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
         jLabel5.setText("Telefone:");
 
+        lbDocE.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
         lbDocE.setText("Nº Doc:");
 
         txtCpf.setFormatterFactory(Mascaras.cpf());
@@ -117,37 +128,39 @@ public class CadastroVisitante extends javax.swing.JInternalFrame {
                     .addComponent(txtCpf))
                 .addGap(34, 34, 34)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(ckEstudante)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
-                            .addComponent(lbDocE, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addComponent(lbDocE)
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtTel)
-                            .addComponent(txtDocE))))
+                        .addComponent(txtDocE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(ckEstudante)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtTel, javax.swing.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(24, 24, 24)
+                .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(ckEstudante)
-                    .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5)
+                    .addComponent(txtTel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbDocE)
-                    .addComponent(txtDocE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(28, 28, 28)
+                    .addComponent(ckEstudante))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5)
-                    .addComponent(txtTel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lbDocE)
+                    .addComponent(txtDocE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -195,17 +208,17 @@ public class CadastroVisitante extends javax.swing.JInternalFrame {
                                 .addComponent(txtBusca, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(btBuscar)
-                                .addGap(0, 57, Short.MAX_VALUE)))
+                                .addGap(0, 110, Short.MAX_VALUE)))
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btNovo)
-                        .addGap(31, 31, 31)
+                        .addGap(44, 44, 44)
                         .addComponent(btCadastrar)
-                        .addGap(42, 42, 42)
+                        .addGap(60, 60, 60)
                         .addComponent(btAlterar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btExcluir)
-                        .addGap(20, 20, 20))))
+                        .addGap(26, 26, 26))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -217,16 +230,16 @@ public class CadastroVisitante extends javax.swing.JInternalFrame {
                     .addComponent(txtBusca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btNovo)
                     .addComponent(btCadastrar)
                     .addComponent(btAlterar)
                     .addComponent(btExcluir))
-                .addContainerGap())
+                .addGap(25, 25, 25))
         );
 
-        setBounds(0, 0, 484, 330);
+        setBounds(0, 0, 547, 318);
     }// </editor-fold>//GEN-END:initComponents
     
     private void limparCampos(){

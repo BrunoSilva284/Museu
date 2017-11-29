@@ -55,11 +55,14 @@ public class GerenciarVisita extends javax.swing.JInternalFrame {
         txtValor = new javax.swing.JTextField();
         btLimpar = new javax.swing.JButton();
 
+        setBackground(new java.awt.Color(227, 232, 254));
         setClosable(true);
         setTitle("Gerenciar Visita");
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/fatec/images/museumVisit.png"))); // NOI18N
 
         txtBusca.setFormatterFactory(Mascaras.cpf());
 
+        jLabel1.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
         jLabel1.setText("CPF do visitante:");
 
         btBuscar.setText("Buscar");
@@ -83,8 +86,10 @@ public class GerenciarVisita extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel2.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
         jLabel2.setText("Visitante:");
 
+        jLabel3.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
         jLabel3.setText("Valor: R$");
 
         btLimpar.setText("Limpar");
@@ -99,29 +104,35 @@ public class GerenciarVisita extends javax.swing.JInternalFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2))
-                .addGap(18, 18, 18)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btFinalizar)
+                .addGap(46, 46, 46))
+            .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtBusca, javax.swing.GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE)
-                            .addComponent(txtNome))
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel1)
+                                    .addComponent(jLabel2))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtBusca, javax.swing.GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE)
+                                    .addComponent(txtNome))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(btBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btLimpar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(43, 43, 43)
+                                .addComponent(btIniciar))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(126, 126, 126)
+                        .addComponent(jLabel3)
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btLimpar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addComponent(txtValor, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(55, 55, 55)
-                .addComponent(btIniciar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 136, Short.MAX_VALUE)
-                .addComponent(btFinalizar)
-                .addGap(37, 37, 37))
+                        .addComponent(txtValor, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -136,15 +147,15 @@ public class GerenciarVisita extends javax.swing.JInternalFrame {
                     .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
                     .addComponent(btLimpar))
-                .addGap(29, 29, 29)
+                .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(txtValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 81, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btIniciar)
                     .addComponent(btFinalizar))
-                .addGap(33, 33, 33))
+                .addGap(72, 72, 72))
         );
 
         pack();
@@ -193,29 +204,14 @@ public class GerenciarVisita extends javax.swing.JInternalFrame {
         if(txtBusca.getText().equals("   .   .   -  ")){
             JOptionPane.showMessageDialog(this, "Digite o CPF do visitante e clique em buscar", "Atenção", JOptionPane.INFORMATION_MESSAGE);
         }else{
-            try{
-                BancoConexao.conectar();
-                PreparedStatement stm = BancoConexao.getConexao()
-                        .prepareStatement("select codigo,dataHoraEntrada, dataHoraSaida from visita "
-                                + "where visitante_idVisitante = "
-                                + "(select max(idVisitante) from visitante "
-                                + "where cpf = '" + txtBusca.getText() + "') order by codigo desc");
-                ResultSet rs = stm.executeQuery();                
-                if (rs.next()) { 
-                    System.out.println(rs.getBoolean("dataHoraSaida"));
-                    if(rs.getString("dataHoraSaida")!=null){
+            try{             
+                if (!ger.iniciouVisita(txtBusca.getText())) { 
                         JOptionPane.showMessageDialog(this, "Visitante não iniciou visita!", "Alerta", JOptionPane.ERROR_MESSAGE);
-                        rs.close();
-                        BancoConexao.desconectar();
-                        return;
-                    }
-                    else{
-                        ger.encerrarVisita(txtBusca.getText());
-                        JOptionPane.showMessageDialog(this, "Visita Finalizada!", "Atenção", JOptionPane.INFORMATION_MESSAGE);
-                    }
                 }
-                rs.close();
-                BancoConexao.desconectar();
+                else{
+                    ger.encerrarVisita(txtBusca.getText());
+                    JOptionPane.showMessageDialog(this, "Visita Finalizada!", "Atenção", JOptionPane.INFORMATION_MESSAGE);
+                }
             }catch(SQLException e)
             {
                 JOptionPane.showMessageDialog(this, "Erro de banco de dados: " + e.getMessage(), "Alerta", JOptionPane.ERROR_MESSAGE);
