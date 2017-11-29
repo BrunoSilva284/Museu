@@ -140,5 +140,19 @@ public class RestauracaoController {
         rs.close();
         BancoConexao.desconectar();
         return restauradores;
-    }  
+    }
+    public List<Restauracao> listarRestauracao(String where) throws SQLException, ClassNotFoundException, NullPointerException {
+        BancoConexao.conectar();
+        PreparedStatement stm = BancoConexao.getConexao().prepareStatement("SELECT * FROM RESTAURACAO"
+                + " "+where);
+        ResultSet rs = stm.executeQuery();
+        List<Restauracao> restauracoes = new ArrayList<>();
+        while (rs.next()) { //percorre todos os registros            
+            Restauracao restauracao = BancoConexao.buscar(Restauracao.class, rs.getInt("codigo"));
+            restauracoes.add(restauracao);
+        }
+        rs.close();
+        BancoConexao.desconectar();
+        return restauracoes;
+    } 
 }

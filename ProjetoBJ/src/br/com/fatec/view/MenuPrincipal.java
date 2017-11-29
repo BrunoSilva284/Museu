@@ -41,6 +41,9 @@ public class MenuPrincipal extends javax.swing.JFrame {
         GerenciarVisita = new javax.swing.JMenuItem();
         GerenciarExposicao = new javax.swing.JMenuItem();
         GerenciarRestauracao = new javax.swing.JMenuItem();
+        jMenu1 = new javax.swing.JMenu();
+        StatusObras = new javax.swing.JMenuItem();
+        StatusRestauracoes = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Menu Principal - Museu");
@@ -112,6 +115,26 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
         jMenuBar1.add(menuGerenciar);
 
+        jMenu1.setText("Relatórios");
+
+        StatusObras.setText("Status das Obras");
+        StatusObras.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                StatusObrasActionPerformed(evt);
+            }
+        });
+        jMenu1.add(StatusObras);
+
+        StatusRestauracoes.setText("Status das Restaurações");
+        StatusRestauracoes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                StatusRestauracoesActionPerformed(evt);
+            }
+        });
+        jMenu1.add(StatusRestauracoes);
+
+        jMenuBar1.add(jMenu1);
+
         setJMenuBar(jMenuBar1);
 
         setBounds(0, 0, 1006, 610);
@@ -164,6 +187,20 @@ public class MenuPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_GerenciarRestauracaoActionPerformed
 
+    private void StatusObrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StatusObrasActionPerformed
+        // TODO add your handling code here:
+        StatusObras rel = new StatusObras("StatusObras");
+        painelPrincipal.add(rel);
+        rel.setVisible(true);
+    }//GEN-LAST:event_StatusObrasActionPerformed
+
+    private void StatusRestauracoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StatusRestauracoesActionPerformed
+        // TODO add your handling code here:
+        StatusObras rel = new StatusObras("StatusRestauracoes");
+        painelPrincipal.add(rel);
+        rel.setVisible(true);
+    }//GEN-LAST:event_StatusRestauracoesActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -180,22 +217,16 @@ public class MenuPrincipal extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MenuPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MenuPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MenuPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(MenuPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        
+        //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MenuPrincipal().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new MenuPrincipal().setVisible(true);
         });
     }
 
@@ -205,6 +236,9 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem GerenciarExposicao;
     private javax.swing.JMenuItem GerenciarRestauracao;
     private javax.swing.JMenuItem GerenciarVisita;
+    private javax.swing.JMenuItem StatusObras;
+    private javax.swing.JMenuItem StatusRestauracoes;
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenu menuCadastro;
     private javax.swing.JMenu menuGerenciar;

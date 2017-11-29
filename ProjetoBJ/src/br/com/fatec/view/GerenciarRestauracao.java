@@ -172,53 +172,57 @@ public class GerenciarRestauracao extends javax.swing.JInternalFrame {
                 .addGap(42, 42, 42)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(btLimpar)
-                        .addGap(18, 18, 18)
-                        .addComponent(btCadastrar)
-                        .addGap(33, 33, 33)
-                        .addComponent(btAtualizar)
-                        .addGap(38, 38, 38)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btExcluir)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel7)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(txtDataInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel8)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
-                                .addComponent(txtDataFim, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel6)
-                                .addGap(18, 18, 18)
-                                .addComponent(cbRestaurador, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addGap(18, 18, 18)
-                                .addComponent(txtValor))))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(291, 291, 291)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel1)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                    .addComponent(jLabel7)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(txtDataInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                    .addComponent(jLabel8)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                                    .addComponent(txtDataFim, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addComponent(jLabel6)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(cbRestaurador, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addComponent(jLabel4)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(txtValor)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(btAtualizar)
+                                .addGap(52, 52, 52)
+                                .addComponent(btExcluir)
+                                .addGap(41, 41, 41)))
+                        .addGap(0, 132, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(96, 96, 96)
+                                .addComponent(jLabel1)
+                                .addGap(31, 31, 31)
+                                .addComponent(txtBuscaObra, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btBuscarObra))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel3))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(cbObra, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(jLabel5)
                                         .addGap(18, 18, 18)
-                                        .addComponent(lbStatus, 0, 81, Short.MAX_VALUE))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel2)
-                                            .addComponent(jLabel3))
-                                        .addGap(33, 33, 33)
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(txtAutorObra, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
-                                            .addComponent(cbObra, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
-                        .addGap(18, 18, 18)
-                        .addComponent(txtBuscaObra, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btBuscarObra)))
-                .addGap(0, 132, Short.MAX_VALUE))
+                                        .addComponent(lbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(txtAutorObra, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                    .addComponent(btLimpar)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btCadastrar))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -282,7 +286,7 @@ public class GerenciarRestauracao extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
     
     private void popularCombo() throws SQLException, ClassNotFoundException, NullPointerException {
-        ArrayList<Obra> obras = (ArrayList) gerAcervo.listarObras("where codigo not in (select obra_codigo from restauracao)");       
+        ArrayList<Obra> obras = (ArrayList) gerAcervo.listarObras("where codigo not in (select obra_codigo from restauracao where status !='FINALIZADA')");       
         ArrayList<String> nome= new ArrayList<>();
         for(Obra obra : obras){
             nome.add(obra.getNome());
@@ -290,8 +294,12 @@ public class GerenciarRestauracao extends javax.swing.JInternalFrame {
         Object[] array = nome.toArray();
         DefaultComboBoxModel model = new DefaultComboBoxModel(array);
         cbObra.setModel(model);
-        txtAutorObra.setText(obras.get(0).getAutor());
-        ArrayList<Restaurador> restauradores = (ArrayList) ger.listarRestaurador("where cracha not in (select restaurador_cracha from restauracao)");
+        if(!obras.isEmpty()){
+            txtAutorObra.setText(obras.get(0).getAutor());
+        }else{
+            txtAutorObra.setText("");
+        }
+        ArrayList<Restaurador> restauradores = (ArrayList) ger.listarRestaurador("where cracha not in (select restaurador_cracha from restauracao where status !='FINALIZADA')");
         nome = new ArrayList<>();
         for(Restaurador restaurador : restauradores){
             nome.add(restaurador.getNome());
@@ -317,6 +325,14 @@ public class GerenciarRestauracao extends javax.swing.JInternalFrame {
         btCadastrar.setEnabled(true);
         cbObra.setEnabled(true);
         popularCombo();
+        cbObra.setEnabled(true);
+        cbRestaurador.setEnabled(true);
+        lbStatus.setSelectedItem(StatusRestauracao.NOVA);
+        lbStatus.setEnabled(false);
+        txtDataInicio.setEnabled(true);
+        txtDataFim.setEnabled(true);
+        txtValor.setEnabled(true);
+        
     }
     
     private void btLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLimparActionPerformed
@@ -330,7 +346,7 @@ public class GerenciarRestauracao extends javax.swing.JInternalFrame {
 
     private void btCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCadastrarActionPerformed
         // TODO add your handling code here:
-        if(cbObra.getSelectedItem().equals("") || txtValor.getText().equals("")){
+        if(cbObra.getSelectedItem().equals("") || txtValor.getText().equals("") || cbObra.getSelectedItem() == null || cbRestaurador.getSelectedItem() == null){
             JOptionPane.showMessageDialog(null, "Preenhca os campos", "Aviso", JOptionPane.INFORMATION_MESSAGE);
         }
         else{
@@ -372,6 +388,7 @@ public class GerenciarRestauracao extends javax.swing.JInternalFrame {
                 lbStatus.setSelectedItem(restauracao.getStatus());
                 cbObra.setSelectedItem(restauracao.getObra().getNome());
                 cbRestaurador.setSelectedItem(restauracao.getRestaurador().getNome());
+                System.out.println(restauracao.getRestaurador().getNome());
                 txtValor.setText(String.valueOf(restauracao.getValor()));
                 
                 if(restauracao.getDataInicio() != null){
@@ -405,11 +422,24 @@ public class GerenciarRestauracao extends javax.swing.JInternalFrame {
                 array = nome.toArray();
                 model = new DefaultComboBoxModel(array);
                 cbRestaurador.setModel(model);
-                
-                btCadastrar.setEnabled(false);
-                btAtualizar.setEnabled(true);
-                btExcluir.setEnabled(true);
-                cbObra.setEnabled(false);
+                cbRestaurador.setSelectedItem(restauracao.getRestaurador().getNome());
+                if(restauracao.getStatus() == StatusRestauracao.FINALIZADA){
+                    cbObra.setEnabled(false);
+                    lbStatus.setEnabled(false);
+                    txtDataInicio.setEnabled(false);
+                    txtDataFim.setEnabled(false);
+                    txtValor.setEnabled(false);
+                    btCadastrar.setEnabled(false);
+                    btAtualizar.setEnabled(false);
+                    btExcluir.setEnabled(true);
+                    cbRestaurador.setEnabled(false);
+                }else{
+                    lbStatus.setEnabled(true);
+                    btCadastrar.setEnabled(false);
+                    btAtualizar.setEnabled(true);
+                    btExcluir.setEnabled(true);
+                    cbObra.setEnabled(false);
+                }
             } catch (SQLException | ClassNotFoundException ex) {
                 Logger.getLogger(GerenciarRestauracao.class.getName()).log(Level.SEVERE, null, ex);
             } catch (NullPointerException ex) {
@@ -437,8 +467,7 @@ public class GerenciarRestauracao extends javax.swing.JInternalFrame {
 
     private void btAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAtualizarActionPerformed
         // TODO add your handling code here:
-        // TODO add your handling code here:
-        if(cbObra.getSelectedItem().equals("") || txtValor.getText().equals("")){
+        if(cbObra.getSelectedItem().equals("") || txtValor.getText().equals("") || txtDataInicio.getText().equals("    -  -  ")){
             JOptionPane.showMessageDialog(null, "Preenhca os campos", "Aviso", JOptionPane.INFORMATION_MESSAGE);
         }
         else{

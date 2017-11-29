@@ -76,6 +76,14 @@ alter table Restaurador
        foreign key (restauracao_codigo) 
        references Restauracao (codigo);
 
+insert into restaurador values
+(123456789, 'Bruno', null);
+
+insert into restaurador values
+(987654321, 'Juliana', null);
+
+insert into restaurador values
+(456789123, 'Carlos', null);
 
 insert into sala
 (qtdVisitantes, status) 
@@ -88,8 +96,6 @@ values (20,'LIVRE');
 insert into sala
 (qtdVisitantes, status) 
 values (90,'LIVRE');
-
-insert into 
 
 insert into usuario
 (usuNome, usuSenha, usuTipo) 

@@ -89,7 +89,7 @@ public class BancoConexao {
               String url = "jdbc:mysql://" +
                 servidor + 
                 ":" + porta +
-                "/" + bd;
+                "/" + bd ;
         
         //carrega o driver do banco
         Class.forName("com.mysql.jdbc.Driver");

@@ -108,25 +108,25 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEntrarActionPerformed
-       /* if(txtUsu.getText().equals("") || txtSenha.getText().equals("")){
+       if(txtUsu.getText().equals("") || txtSenha.getText().equals("")){
             JOptionPane.showMessageDialog(this, "Preencha os campos!");
         }
         else{
             try{
                 BancoConexao.conectar();
                 PreparedStatement stm = BancoConexao.getConexao().prepareStatement("SELECT * FROM USUARIO"
-                + " WHERE usuNome='" + txtUsu.getText() + "' and usuSen='" + txtSenha.getText() + "'");
+                + " WHERE usuNome='" + txtUsu.getText() + "' and usuSenha='" + txtSenha.getText() + "'");
                 ResultSet rs = stm.executeQuery();
-                if (rs.next()) {*/
+                if (rs.next()) {
                     menu.show();
-        /*         }
+               }
                BancoConexao.desconectar();
             }catch(SQLException e){
                 JOptionPane.showMessageDialog(this, "Erro de banco de dados: " + e.getMessage(), "Alerta", JOptionPane.ERROR_MESSAGE);
             }catch(ClassNotFoundException e){
                 JOptionPane.showMessageDialog(this, "Erro: " + e.getMessage(), "Alerta", JOptionPane.ERROR_MESSAGE);
             }          
-        }*/   
+        }   
     }//GEN-LAST:event_btEntrarActionPerformed
 
     /**

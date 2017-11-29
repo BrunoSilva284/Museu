@@ -42,12 +42,12 @@ public class GerenciarExposicao extends javax.swing.JInternalFrame {
         txtAutorObra.setEditable(false);
         txtNomeObra.setEditable(false);
         txtTipoObra.setEditable(false);
-        popularCombo();
+        popularCombo("WHERE STATUS ='LIVRE'");
         limparCampos();
     }
     
-    private void popularCombo() throws SQLException, ClassNotFoundException, NullPointerException{
-        ArrayList<Sala> salas = (ArrayList) salaGer.listarSalas();
+    private void popularCombo(String where) throws SQLException, ClassNotFoundException, NullPointerException{
+        ArrayList<Sala> salas = (ArrayList) salaGer.listarSalas(where);
         ArrayList<Integer> numeros= new ArrayList<>();
         for(Sala sala : salas){
             numeros.add(sala.getNumero());
@@ -78,12 +78,10 @@ public class GerenciarExposicao extends javax.swing.JInternalFrame {
         btBuscarObra.setEnabled(true);
         btCadastrarExpo.setEnabled(true);
         btExcluirExpo.setEnabled(false);
-        btRemoverObra.setEnabled(false);
         lbLotacao.setText("Lotação:");
         cbSala.setSelectedIndex(0);
         
-        DefaultTableModel model = (DefaultTableModel) tbObras.getModel();
-        model = new DefaultTableModel(new String[] {"Nome Obra", "Autor", "Tipo de Obra"},0);
+        DefaultTableModel model = new DefaultTableModel(new String[] {"Nome Obra", "Autor", "Tipo de Obra"},0);
         tbObras.setModel(model);
     }
     
@@ -126,7 +124,6 @@ public class GerenciarExposicao extends javax.swing.JInternalFrame {
         jLabel11 = new javax.swing.JLabel();
         txtTipoObra = new javax.swing.JTextField();
         btAdicionarObra = new javax.swing.JButton();
-        btRemoverObra = new javax.swing.JButton();
         btCadastrarExpo = new javax.swing.JButton();
         btAlterarExpo = new javax.swing.JButton();
         btExcluirExpo = new javax.swing.JButton();
@@ -232,8 +229,6 @@ public class GerenciarExposicao extends javax.swing.JInternalFrame {
             }
         });
 
-        btRemoverObra.setText("Remover da exposição");
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -245,10 +240,10 @@ public class GerenciarExposicao extends javax.swing.JInternalFrame {
                         .addContainerGap()
                         .addComponent(jLabel9)
                         .addGap(18, 18, 18)
+                        .addComponent(txtNomeObra, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(txtNomeObra, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(26, 26, 26)
                                 .addComponent(jLabel10)
                                 .addGap(18, 18, 18)
                                 .addComponent(txtAutorObra, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -256,33 +251,24 @@ public class GerenciarExposicao extends javax.swing.JInternalFrame {
                                 .addComponent(jLabel11)
                                 .addGap(18, 18, 18)
                                 .addComponent(txtTipoObra, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(btAdicionarObra, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(70, 70, 70)
-                                .addComponent(btRemoverObra, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                            .addComponent(btAdicionarObra, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(55, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel8)
-                        .addGap(7, 7, 7)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel9)
-                            .addComponent(txtNomeObra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel10)
-                            .addComponent(txtAutorObra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel11)
-                            .addComponent(txtTipoObra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 38, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btAdicionarObra)
-                            .addComponent(btRemoverObra))))
-                .addContainerGap())
+                .addComponent(jLabel8)
+                .addGap(7, 7, 7)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel9)
+                    .addComponent(txtNomeObra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10)
+                    .addComponent(txtAutorObra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel11)
+                    .addComponent(txtTipoObra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(btAdicionarObra)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         btCadastrarExpo.setText("Cadastrar");
@@ -494,6 +480,7 @@ public class GerenciarExposicao extends javax.swing.JInternalFrame {
                 Exposicao exposicao = ger.consultarExposicao(txtBusca.getText());
                 txtNome.setText(exposicao.getNome());      
                 nomeAntigo = exposicao.getNome();
+                popularCombo("WHERE numero not in (select sala_numero from exposicao where codigo !="+exposicao.getCodigo()+")");
                 Calendar data =exposicao.getDataInicio();
                 cbSala.setSelectedItem(exposicao.getSala().getNumero());
                 lbLotacao.setText("Lotação: "+exposicao.getSala().getQtdVisitantes());
@@ -528,16 +515,13 @@ public class GerenciarExposicao extends javax.swing.JInternalFrame {
                     obras = exposicao.getObras();
                     Iterator<Obra> obrIt = obras.iterator();
                     while(obrIt.hasNext()){
-                        System.out.println("NAO VAZIO");
                         Obra obra = obrIt.next();
-                        System.out.println("NOME: " + obra.getNome());
                         model.addRow(new Object[]{obra.getNome(), obra.getAutor(),obra.getClassificacao().toString()});
                         tbObras.setModel(model);
                     }
                 }
                 else{
                     tbObras.setModel(model);
-                    System.out.println("VAZIO");
                 }
                 btCadastrarExpo.setEnabled(false);
                 btAlterarExpo.setEnabled(true);
@@ -666,6 +650,7 @@ public class GerenciarExposicao extends javax.swing.JInternalFrame {
                     expo.setTipo("PERMANENTE");
                 }
                 expo = this.retornarObras(expo);
+                
                 expo.setSala(salaGer.consultarSala((int) cbSala.getSelectedItem()));
                 ger.atualizarExposicao(expo, nomeAntigo);
                 limparCampos();
@@ -711,7 +696,6 @@ public class GerenciarExposicao extends javax.swing.JInternalFrame {
     private javax.swing.JButton btCadastrarExpo;
     private javax.swing.JButton btExcluirExpo;
     private javax.swing.JButton btLimpar;
-    private javax.swing.JButton btRemoverObra;
     private javax.swing.JComboBox<String> cbSala;
     private javax.swing.JCheckBox ckPermanente;
     private javax.swing.JLabel jLabel1;

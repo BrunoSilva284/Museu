@@ -29,11 +29,11 @@ public class SalaController {
         return null;
     }
     
-    public List<Sala> listarSalas() throws SQLException, ClassNotFoundException, NullPointerException {
+    public List<Sala> listarSalas(String where) throws SQLException, ClassNotFoundException, NullPointerException {
         List<Sala> salas = new ArrayList<>();
         BancoConexao.conectar();
         PreparedStatement stm = BancoConexao.getConexao().prepareStatement("SELECT * FROM SALA "
-                + "WHERE STATUS ='LIVRE'");
+                + where);
         ResultSet rs = stm.executeQuery();
 
         while(rs.next()) { //percorre todos os registros            
